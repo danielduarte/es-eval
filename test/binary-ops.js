@@ -12,4 +12,13 @@ describe('Binary operations', function () {
     assert.deepStrictEqual(actualResult, expectedResult);
   });
 
+  it('can subtract', function () {
+    const code = '1 - 2';
+
+    const actualResult = esEval(code);
+    const expectedResult = -1;
+
+    assert.deepStrictEqual(actualResult, expectedResult);
+  });
+
 });

@@ -15,13 +15,20 @@ const evalLiteral = node => {
 const evalBinaryExpression = node => {
   assert.strictEqual(node.type, 'BinaryExpression');
 
+  const supportedBinaryOperators = {
+    '+': (x, y) => x + y,
+    '-': (x, y) => x - y,
+  };
+
+
   const { left, right, operator } = node;
-  assert.strictEqual(operator, '+');
+  assert(supportedBinaryOperators.hasOwnProperty(operator), `Operator not supported '${operator}'`);
+  const op = supportedBinaryOperators[operator];
 
   const leftResult = evalLiteral(left);
   const rightResult = evalLiteral(right);
 
-  return leftResult + rightResult;
+  return op(leftResult, rightResult);
 };
 
 const evalExpressionStatement = node => {
