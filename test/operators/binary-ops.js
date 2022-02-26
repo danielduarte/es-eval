@@ -1,7 +1,7 @@
 const assert = require('assert');
 const esEval = require('../..');
 
-describe('Binary operations', function () {
+describe('Binary operations (simple cases with positive integer arguments)', function () {
 
   describe('Arithmetic', function () {
     it('can add (+)', function () {
