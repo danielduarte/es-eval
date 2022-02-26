@@ -3,6 +3,44 @@
 const assert = require('assert');
 const acorn = require('acorn');
 
+const supportedBinaryOps = {
+  // Arithmetic
+  '+': (x, y) => x + y,
+  '-': (x, y) => x - y,
+  '*': (x, y) => x * y,
+  '/': (x, y) => x / y,
+  '%': (x, y) => x % y,
+  '**': (x, y) => x ** y,
+
+  // Comparison and relational
+  // @todo Not supported yet: 'in', 'instanceof'
+  '<': (x, y) => x < y,
+  '>': (x, y) => x > y,
+  '<=': (x, y) => x <= y,
+  '>=': (x, y) => x >= y,
+  '==': (x, y) => x == y,
+  '!=': (x, y) => x != y,
+  '===': (x, y) => x === y,
+  '!==': (x, y) => x !== y,
+
+  // Bitwise shift
+  '<<': (x, y) => x << y,
+  '>>': (x, y) => x >> y,
+  '>>>': (x, y) => x >>> y,
+
+  // Bitwise logic
+  '&': (x, y) => x & y,
+  '|': (x, y) => x | y,
+  '^': (x, y) => x ^ y,
+};
+
+const supportedLogicalOps = {
+  // Logical
+  '&&': (x, y) => x && y,
+  '||': (x, y) => x || y,
+  '??': (x, y) => typeof x === 'undefined' || x === null ? y : x,
+};
+
 const evalLiteral = node => {
   assert.strictEqual(node.type, 'Literal');
 
@@ -15,44 +53,22 @@ const evalLiteral = node => {
 const evalBinaryExpression = node => {
   assert.strictEqual(node.type, 'BinaryExpression');
 
-  const supportedBinaryOperators = {
+  const { left, right, operator } = node;
+  assert(supportedBinaryOps.hasOwnProperty(operator), `Binary operator not supported '${operator}'`);
+  const op = supportedBinaryOps[operator];
 
-    // Arithmetic
-    '+': (x, y) => x + y,
-    '-': (x, y) => x - y,
-    '*': (x, y) => x * y,
-    '/': (x, y) => x / y,
-    '%': (x, y) => x % y,
-    '**': (x, y) => x ** y,
+  const leftResult = evalLiteral(left);
+  const rightResult = evalLiteral(right);
 
-    // Relational
-    // @todo Not supported yet: 'in', 'instanceof'
-    '<': (x, y) => x < y,
-    '>': (x, y) => x > y,
-    '<=': (x, y) => x <= y,
-    '>=': (x, y) => x >= y,
+  return op(leftResult, rightResult);
+};
 
-    // Equality
-    '==': (x, y) => x == y,
-    '!=': (x, y) => x != y,
-    '===': (x, y) => x === y,
-    '!==': (x, y) => x !== y,
-
-    // Bitwise shift
-    '<<': (x, y) => x << y,
-    '>>': (x, y) => x >> y,
-    '>>>': (x, y) => x >>> y,
-
-    // Bitwise logic
-    '&': (x, y) => x & y,
-    '|': (x, y) => x | y,
-    '^': (x, y) => x ^ y,
-  };
-
+const evalLogicalExpression = node => {
+  assert.strictEqual(node.type, 'LogicalExpression');
 
   const { left, right, operator } = node;
-  assert(supportedBinaryOperators.hasOwnProperty(operator), `Binary operator not supported '${operator}'`);
-  const op = supportedBinaryOperators[operator];
+  assert(supportedLogicalOps.hasOwnProperty(operator), `Logical operator not supported '${operator}'`);
+  const op = supportedLogicalOps[operator];
 
   const leftResult = evalLiteral(left);
   const rightResult = evalLiteral(right);
@@ -65,7 +81,12 @@ const evalExpressionStatement = node => {
 
   const { expression } = node;
 
-  return evalBinaryExpression(expression);
+  switch (expression.type) {
+    case 'BinaryExpression': return evalBinaryExpression(expression);
+    case 'LogicalExpression': return evalLogicalExpression(expression);
+    // @todo Not supported yet: 'SequenceExpression'
+    default: assert.fail(`Expected BinaryExpression or LogicalExpression`);
+  }
 };
 
 const evalProgram = node => {
