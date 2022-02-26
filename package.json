@@ -4,7 +4,7 @@
   "description": "Run JavaScript safely",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -25,5 +25,11 @@
   "bugs": {
     "url": "https://github.com/danielduarte/es-eval/issues"
   },
-  "homepage": "https://github.com/danielduarte/es-eval#readme"
+  "homepage": "https://github.com/danielduarte/es-eval#readme",
+  "devDependencies": {
+    "mocha": "^9.2.1"
+  },
+  "dependencies": {
+    "acorn": "^8.7.0"
+  }
 }
