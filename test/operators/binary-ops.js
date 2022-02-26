@@ -1,5 +1,5 @@
 const assert = require('assert');
-const esEval = require('..');
+const esEval = require('../..');
 
 describe('Binary operations', function () {
 
@@ -69,5 +69,29 @@ describe('Binary operations', function () {
   it('can compare with !==', function () {
     assert.deepStrictEqual(esEval('4 !== 5'), true);
     assert.deepStrictEqual(esEval('5 !== 5'), false);
+  });
+
+  it('can calculate bitwise left shift (<<)', function () {
+    assert.deepStrictEqual(esEval('100 << 3'), 800);
+  });
+
+  it('can calculate bitwise right shift (>>)', function () {
+    assert.deepStrictEqual(esEval('100 >> 3'), 12);
+  });
+
+  it('can calculate bitwise unsigned right shift (>>>)', function () {
+    assert.deepStrictEqual(esEval('100 >>> 3'), 12);
+  });
+
+  it('can calculate bitwise AND (&)', function () {
+    assert.deepStrictEqual(esEval('111 & 112'), 96);
+  });
+
+  it('can calculate bitwise OR (|)', function () {
+    assert.deepStrictEqual(esEval('111 | 112'), 127);
+  });
+
+  it('can calculate bitwise XOR (^)', function () {
+    assert.deepStrictEqual(esEval('111 ^ 112'), 31);
   });
 });

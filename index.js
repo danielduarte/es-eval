@@ -37,6 +37,16 @@ const evalBinaryExpression = node => {
     '!=': (x, y) => x != y,
     '===': (x, y) => x === y,
     '!==': (x, y) => x !== y,
+
+    // Bitwise shift
+    '<<': (x, y) => x << y,
+    '>>': (x, y) => x >> y,
+    '>>>': (x, y) => x >>> y,
+
+    // Bitwise logic
+    '&': (x, y) => x & y,
+    '|': (x, y) => x | y,
+    '^': (x, y) => x ^ y,
   };
 
 
