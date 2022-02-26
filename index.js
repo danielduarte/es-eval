@@ -18,6 +18,9 @@ const evalBinaryExpression = node => {
   const supportedBinaryOperators = {
     '+': (x, y) => x + y,
     '-': (x, y) => x - y,
+    '*': (x, y) => x * y,
+    '/': (x, y) => x / y,
+    '%': (x, y) => x % y,
   };
 
 
