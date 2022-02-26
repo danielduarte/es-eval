@@ -16,16 +16,32 @@ const evalBinaryExpression = node => {
   assert.strictEqual(node.type, 'BinaryExpression');
 
   const supportedBinaryOperators = {
+
+    // Arithmetic
     '+': (x, y) => x + y,
     '-': (x, y) => x - y,
     '*': (x, y) => x * y,
     '/': (x, y) => x / y,
     '%': (x, y) => x % y,
+    '**': (x, y) => x ** y,
+
+    // Relational
+    // @todo Not supported yet: 'in', 'instanceof'
+    '<': (x, y) => x < y,
+    '>': (x, y) => x > y,
+    '<=': (x, y) => x <= y,
+    '>=': (x, y) => x >= y,
+
+    // Equality
+    '==': (x, y) => x == y,
+    '!=': (x, y) => x != y,
+    '===': (x, y) => x === y,
+    '!==': (x, y) => x !== y,
   };
 
 
   const { left, right, operator } = node;
-  assert(supportedBinaryOperators.hasOwnProperty(operator), `Operator not supported '${operator}'`);
+  assert(supportedBinaryOperators.hasOwnProperty(operator), `Binary operator not supported '${operator}'`);
   const op = supportedBinaryOperators[operator];
 
   const leftResult = evalLiteral(left);
