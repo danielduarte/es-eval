@@ -3,6 +3,8 @@
 const assert = require('assert');
 const acorn = require('acorn');
 
+const TYPE_NUMBER = 'number';
+
 const supportedBinaryOps = {
   // Arithmetic
   '+': (x, y) => x + y,
@@ -74,8 +76,8 @@ const evalBinaryExpression = node => {
   assert(supportedBinaryOps.hasOwnProperty(operator), `Binary operator not supported '${operator}'`);
   const op = supportedBinaryOps[operator];
 
-  const leftResult = evalLiteral(left, 'number');
-  const rightResult = evalLiteral(right, 'number');
+  const leftResult = evalLiteral(left, TYPE_NUMBER);
+  const rightResult = evalLiteral(right, TYPE_NUMBER);
 
   return op(leftResult, rightResult);
 };
@@ -87,8 +89,8 @@ const evalLogicalExpression = node => {
   assert(supportedLogicalOps.hasOwnProperty(operator), `Logical operator not supported '${operator}'`);
   const op = supportedLogicalOps[operator];
 
-  const leftResult = evalLiteral(left, 'number');
-  const rightResult = evalLiteral(right, 'number');
+  const leftResult = evalLiteral(left, TYPE_NUMBER);
+  const rightResult = evalLiteral(right, TYPE_NUMBER);
 
   return op(leftResult, rightResult);
 };
@@ -101,7 +103,7 @@ const evalUnaryExpression = node => {
   assert(supportedUnaryOps.hasOwnProperty(operator), `Unary operator not supported '${operator}'`);
   const op = supportedUnaryOps[operator];
 
-  const argumentResult = evalLiteral(argument, 'number');
+  const argumentResult = evalLiteral(argument, TYPE_NUMBER);
 
   return op(argumentResult);
 };
@@ -112,6 +114,7 @@ const evalExpressionStatement = node => {
   const { expression } = node;
 
   switch (expression.type) {
+    case 'Literal': return evalLiteral(expression, TYPE_NUMBER);
     case 'UnaryExpression': return evalUnaryExpression(expression);
     case 'BinaryExpression': return evalBinaryExpression(expression);
     case 'LogicalExpression': return evalLogicalExpression(expression);
