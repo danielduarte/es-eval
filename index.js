@@ -109,6 +109,17 @@ const evalLogicalExpression = node => {
   return op(leftResult, rightResult);
 };
 
+const evalSequenceExpression = node => {
+  assert.strictEqual(node.type, 'SequenceExpression');
+
+  const { expressions } = node;
+  assert.strictEqual(expressions.length >= 2, true);
+
+  const expressionResults = expressions.map(exp => evalLiteral(exp, TYPE_NUMBER));
+
+  return expressionResults[expressionResults.length - 1];
+};
+
 const evalUnaryExpression = node => {
   assert.strictEqual(node.type, 'UnaryExpression');
 
@@ -132,9 +143,9 @@ const evalExpressionStatement = node => {
     case 'UnaryExpression': return evalUnaryExpression(expression);
     case 'BinaryExpression': return evalBinaryExpression(expression);
     case 'LogicalExpression': return evalLogicalExpression(expression);
+    case 'SequenceExpression': return evalSequenceExpression(expression);
     case 'ConditionalExpression': return evalConditionalExpression(expression);
-    // @todo Not supported yet: 'SequenceExpression'
-    default: assert.fail(`Expected one of: 'Literal', 'UnaryExpression', 'BinaryExpression', 'LogicalExpression', 'ConditionalExpression'`);
+    default: assert.fail(`Expected one of: 'Literal', 'UnaryExpression', 'BinaryExpression', 'LogicalExpression', 'ConditionalExpression', 'SequenceExpression'`);
   }
 };
 

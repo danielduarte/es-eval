@@ -120,4 +120,11 @@ describe('Binary operations (simple cases with positive integer arguments)', fun
       assert.deepStrictEqual(esEval('11 ?? 0'), 11);
     });
   });
+
+  describe('Sequential', function () {
+    it('can calculate sequential expressions (,)', function () {
+      assert.deepStrictEqual(esEval('11, 55'), 55);
+      assert.deepStrictEqual(esEval('11, 22, 33, 44, 55, 66'), 66);
+    });
+  });
 });
