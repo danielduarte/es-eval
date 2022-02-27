@@ -7,6 +7,9 @@ describe('Ternary operations (simple cases with positive integer arguments)', fu
     it('can calculate a conditional (?:)', function () {
       assert.deepStrictEqual(esEval('1 ? 11 : 22'), 11);
       assert.deepStrictEqual(esEval('0 ? 11 : 22'), 22);
+      assert.deepStrictEqual(esEval('undefined ? 11 : 22'), 22);
+      assert.deepStrictEqual(esEval('1 ? undefined : 22'), void 0);
+      assert.deepStrictEqual(esEval('0 ? 11 : undefined'), void 0);
     });
   });
 });

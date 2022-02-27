@@ -57,7 +57,7 @@ const supportedUnaryOps = {
   // General
   'typeof': x => typeof x,
   'void': x => void x,
-  'delete': () => true,
+  'delete': x => typeof x === 'number',
 };
 
 const evalLiteral = (node, typeName) => {
@@ -69,6 +69,17 @@ const evalLiteral = (node, typeName) => {
   return value;
 };
 
+const evalIdentifier = (node) => {
+  assert.strictEqual(node.type, 'Identifier');
+
+  const { name } = node;
+  assert.strictEqual(name, 'undefined');
+  // @todo make sure 'undefined' is not being used as identifier
+  const value = void 0;
+
+  return value;
+};
+
 const evalConditionalExpression = node => {
   assert.strictEqual(node.type, 'ConditionalExpression');
 
@@ -76,9 +87,9 @@ const evalConditionalExpression = node => {
 
   const op = (x, y, z) => x ? y : z;
 
-  const testResult = evalLiteral(test, TYPE_NUMBER);
-  const consequentResult = evalLiteral(consequent, TYPE_NUMBER);
-  const alternateResult = evalLiteral(alternate, TYPE_NUMBER);
+  const testResult = evalExpressionNode(test, TYPE_NUMBER);
+  const consequentResult = evalExpressionNode(consequent, TYPE_NUMBER);
+  const alternateResult = evalExpressionNode(alternate, TYPE_NUMBER);
 
   return op(testResult, consequentResult, alternateResult);
 };
@@ -90,8 +101,8 @@ const evalBinaryExpression = node => {
   assert(supportedBinaryOps.hasOwnProperty(operator), `Binary operator not supported '${operator}'`);
   const op = supportedBinaryOps[operator];
 
-  const leftResult = evalLiteral(left, TYPE_NUMBER);
-  const rightResult = evalLiteral(right, TYPE_NUMBER);
+  const leftResult = evalExpressionNode(left, TYPE_NUMBER);
+  const rightResult = evalExpressionNode(right, TYPE_NUMBER);
 
   return op(leftResult, rightResult);
 };
@@ -103,8 +114,8 @@ const evalLogicalExpression = node => {
   assert(supportedLogicalOps.hasOwnProperty(operator), `Logical operator not supported '${operator}'`);
   const op = supportedLogicalOps[operator];
 
-  const leftResult = evalLiteral(left, TYPE_NUMBER);
-  const rightResult = evalLiteral(right, TYPE_NUMBER);
+  const leftResult = evalExpressionNode(left, TYPE_NUMBER);
+  const rightResult = evalExpressionNode(right, TYPE_NUMBER);
 
   return op(leftResult, rightResult);
 };
@@ -115,7 +126,7 @@ const evalSequenceExpression = node => {
   const { expressions } = node;
   assert.strictEqual(expressions.length >= 2, true);
 
-  const expressionResults = expressions.map(exp => evalLiteral(exp, TYPE_NUMBER));
+  const expressionResults = expressions.map(exp => evalExpressionNode(exp, TYPE_NUMBER));
 
   return expressionResults[expressionResults.length - 1];
 };
@@ -128,25 +139,30 @@ const evalUnaryExpression = node => {
   assert(supportedUnaryOps.hasOwnProperty(operator), `Unary operator not supported '${operator}'`);
   const op = supportedUnaryOps[operator];
 
-  const argumentResult = evalLiteral(argument, TYPE_NUMBER);
+  const argumentResult = evalExpressionNode(argument, TYPE_NUMBER);
 
   return op(argumentResult);
 };
 
-const evalExpressionStatement = node => {
+const evalExpressionNode = (node, typeName) => {
+  switch (node.type) {
+    case 'Literal': return evalLiteral(node, typeName);
+    case 'Identifier': return evalIdentifier(node);
+    case 'UnaryExpression': return evalUnaryExpression(node);
+    case 'BinaryExpression': return evalBinaryExpression(node);
+    case 'LogicalExpression': return evalLogicalExpression(node);
+    case 'SequenceExpression': return evalSequenceExpression(node);
+    case 'ConditionalExpression': return evalConditionalExpression(node);
+    default: assert.fail(`Expected one of: 'Literal', 'UnaryExpression', 'BinaryExpression', 'LogicalExpression', 'ConditionalExpression', 'SequenceExpression'`);
+  }
+};
+
+const evalExpressionStatement = (node, typeName) => {
   assert.strictEqual(node.type, 'ExpressionStatement');
 
   const { expression } = node;
 
-  switch (expression.type) {
-    case 'Literal': return evalLiteral(expression, TYPE_NUMBER);
-    case 'UnaryExpression': return evalUnaryExpression(expression);
-    case 'BinaryExpression': return evalBinaryExpression(expression);
-    case 'LogicalExpression': return evalLogicalExpression(expression);
-    case 'SequenceExpression': return evalSequenceExpression(expression);
-    case 'ConditionalExpression': return evalConditionalExpression(expression);
-    default: assert.fail(`Expected one of: 'Literal', 'UnaryExpression', 'BinaryExpression', 'LogicalExpression', 'ConditionalExpression', 'SequenceExpression'`);
-  }
+  return evalExpressionNode(expression, typeName);
 };
 
 const evalProgram = node => {
@@ -157,7 +173,7 @@ const evalProgram = node => {
 
   const statement = body[0];
 
-  return evalExpressionStatement(statement);
+  return evalExpressionStatement(statement, TYPE_NUMBER);
 };
 
 const evalAst = ast => {

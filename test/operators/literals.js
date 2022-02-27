@@ -7,4 +7,8 @@ describe('Literals', function () {
     assert.deepStrictEqual(esEval('1234'), 1234);
   });
 
+  it('undefined', function () {
+    assert.deepStrictEqual(esEval('undefined'), void 0);
+  });
+
 });
