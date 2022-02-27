@@ -4,6 +4,7 @@ const assert = require('assert');
 const acorn = require('acorn');
 
 const TYPE_NUMBER = 'number';
+const TYPE_BOOLEAN = 'boolean';
 
 const supportedBinaryOps = {
   // Arithmetic
@@ -57,14 +58,14 @@ const supportedUnaryOps = {
   // General
   'typeof': x => typeof x,
   'void': x => void x,
-  'delete': x => typeof x === 'number',
+  'delete': x => typeof x === 'number' || typeof x === 'boolean',
 };
 
-const evalLiteral = (node, typeName) => {
+const evalLiteral = (node, typeNames) => {
   assert.strictEqual(node.type, 'Literal');
 
   const { value } = node;
-  assert(typeof value === typeName, `Expected '${typeName}' argument`);
+  assert(typeNames.includes(typeof value), `Expected one of ${typeNames.map(t => `'${t}'`).join(', ')} as argument`);
 
   return value;
 };
@@ -87,9 +88,9 @@ const evalConditionalExpression = node => {
 
   const op = (x, y, z) => x ? y : z;
 
-  const testResult = evalExpressionNode(test, TYPE_NUMBER);
-  const consequentResult = evalExpressionNode(consequent, TYPE_NUMBER);
-  const alternateResult = evalExpressionNode(alternate, TYPE_NUMBER);
+  const testResult = evalExpressionNode(test, [TYPE_NUMBER, TYPE_BOOLEAN]);
+  const consequentResult = evalExpressionNode(consequent, [TYPE_NUMBER, TYPE_BOOLEAN]);
+  const alternateResult = evalExpressionNode(alternate, [TYPE_NUMBER, TYPE_BOOLEAN]);
 
   return op(testResult, consequentResult, alternateResult);
 };
@@ -101,8 +102,8 @@ const evalBinaryExpression = node => {
   assert(supportedBinaryOps.hasOwnProperty(operator), `Binary operator not supported '${operator}'`);
   const op = supportedBinaryOps[operator];
 
-  const leftResult = evalExpressionNode(left, TYPE_NUMBER);
-  const rightResult = evalExpressionNode(right, TYPE_NUMBER);
+  const leftResult = evalExpressionNode(left, [TYPE_NUMBER, TYPE_BOOLEAN]);
+  const rightResult = evalExpressionNode(right, [TYPE_NUMBER, TYPE_BOOLEAN]);
 
   return op(leftResult, rightResult);
 };
@@ -114,8 +115,8 @@ const evalLogicalExpression = node => {
   assert(supportedLogicalOps.hasOwnProperty(operator), `Logical operator not supported '${operator}'`);
   const op = supportedLogicalOps[operator];
 
-  const leftResult = evalExpressionNode(left, TYPE_NUMBER);
-  const rightResult = evalExpressionNode(right, TYPE_NUMBER);
+  const leftResult = evalExpressionNode(left, [TYPE_NUMBER, TYPE_BOOLEAN]);
+  const rightResult = evalExpressionNode(right, [TYPE_NUMBER, TYPE_BOOLEAN]);
 
   return op(leftResult, rightResult);
 };
@@ -126,7 +127,7 @@ const evalSequenceExpression = node => {
   const { expressions } = node;
   assert.strictEqual(expressions.length >= 2, true);
 
-  const expressionResults = expressions.map(exp => evalExpressionNode(exp, TYPE_NUMBER));
+  const expressionResults = expressions.map(exp => evalExpressionNode(exp, [TYPE_NUMBER, TYPE_BOOLEAN]));
 
   return expressionResults[expressionResults.length - 1];
 };
@@ -139,14 +140,14 @@ const evalUnaryExpression = node => {
   assert(supportedUnaryOps.hasOwnProperty(operator), `Unary operator not supported '${operator}'`);
   const op = supportedUnaryOps[operator];
 
-  const argumentResult = evalExpressionNode(argument, TYPE_NUMBER);
+  const argumentResult = evalExpressionNode(argument, [TYPE_NUMBER, TYPE_BOOLEAN]);
 
   return op(argumentResult);
 };
 
-const evalExpressionNode = (node, typeName) => {
+const evalExpressionNode = (node, typeNames) => {
   switch (node.type) {
-    case 'Literal': return evalLiteral(node, typeName);
+    case 'Literal': return evalLiteral(node, typeNames);
     case 'Identifier': return evalIdentifier(node);
     case 'UnaryExpression': return evalUnaryExpression(node);
     case 'BinaryExpression': return evalBinaryExpression(node);
@@ -157,12 +158,12 @@ const evalExpressionNode = (node, typeName) => {
   }
 };
 
-const evalExpressionStatement = (node, typeName) => {
+const evalExpressionStatement = (node, typeNames) => {
   assert.strictEqual(node.type, 'ExpressionStatement');
 
   const { expression } = node;
 
-  return evalExpressionNode(expression, typeName);
+  return evalExpressionNode(expression, typeNames);
 };
 
 const evalProgram = node => {
@@ -173,7 +174,7 @@ const evalProgram = node => {
 
   const statement = body[0];
 
-  return evalExpressionStatement(statement, TYPE_NUMBER);
+  return evalExpressionStatement(statement, [TYPE_NUMBER, TYPE_BOOLEAN]);
 };
 
 const evalAst = ast => {
