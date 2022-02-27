@@ -69,6 +69,20 @@ const evalLiteral = (node, typeName) => {
   return value;
 };
 
+const evalConditionalExpression = node => {
+  assert.strictEqual(node.type, 'ConditionalExpression');
+
+  const { test, consequent, alternate } = node;
+
+  const op = (x, y, z) => x ? y : z;
+
+  const testResult = evalLiteral(test, TYPE_NUMBER);
+  const consequentResult = evalLiteral(consequent, TYPE_NUMBER);
+  const alternateResult = evalLiteral(alternate, TYPE_NUMBER);
+
+  return op(testResult, consequentResult, alternateResult);
+};
+
 const evalBinaryExpression = node => {
   assert.strictEqual(node.type, 'BinaryExpression');
 
@@ -118,8 +132,9 @@ const evalExpressionStatement = node => {
     case 'UnaryExpression': return evalUnaryExpression(expression);
     case 'BinaryExpression': return evalBinaryExpression(expression);
     case 'LogicalExpression': return evalLogicalExpression(expression);
+    case 'ConditionalExpression': return evalConditionalExpression(expression);
     // @todo Not supported yet: 'SequenceExpression'
-    default: assert.fail(`Expected one of: 'UnaryExpression', 'BinaryExpression', 'LogicalExpression'`);
+    default: assert.fail(`Expected one of: 'Literal', 'UnaryExpression', 'BinaryExpression', 'LogicalExpression', 'ConditionalExpression'`);
   }
 };
 
