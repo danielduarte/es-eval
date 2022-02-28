@@ -6,3 +6,4 @@ require('./operators/binary-ops');
 require('./operators/ternary-ops');
 require('./expressions/nested');
 require('./functions/lambda');
+require('./functions/scopes');
