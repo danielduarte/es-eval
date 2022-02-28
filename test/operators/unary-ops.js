@@ -1,12 +1,16 @@
 const assert = require('assert');
 const esEval = require('../..');
 
+// @todo test NaN, +-Infinity and other related values
+
 describe('Unary operations', function () {
 
   describe('Arithmetic', function () {
     it('unary plus (+)', function () {
       assert.deepStrictEqual(esEval('+8'), 8);
       assert.deepStrictEqual(esEval('+0'), 0);
+      assert.deepStrictEqual(esEval('+Infinity'), Infinity);
+      assert.deepStrictEqual(esEval('+NaN'), NaN);
       assert.deepStrictEqual(esEval('+undefined'), NaN);
       assert.deepStrictEqual(esEval('+false'), 0);
       assert.deepStrictEqual(esEval('+true'), 1);
@@ -15,6 +19,8 @@ describe('Unary operations', function () {
     it('unary negation (-)', function () {
       assert.deepStrictEqual(esEval('-8'), -8);
       assert.deepStrictEqual(esEval('-0'), -0);
+      assert.deepStrictEqual(esEval('-Infinity'), -Infinity);
+      assert.deepStrictEqual(esEval('-NaN'), NaN);
       assert.deepStrictEqual(esEval('-undefined'), NaN);
       assert.deepStrictEqual(esEval('-false'), -0);
       assert.deepStrictEqual(esEval('-true'), -1);

@@ -4,3 +4,4 @@ require('./operators/literals');
 require('./operators/unary-ops');
 require('./operators/binary-ops');
 require('./operators/ternary-ops');
+require('./expressions/nested');

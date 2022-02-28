@@ -1,6 +1,8 @@
 const assert = require('assert');
 const esEval = require('../..');
 
+// @todo test NaN, +-Infinity and other related values
+
 describe('Ternary operations', function () {
 
   describe('Conditional', function () {
