@@ -7,7 +7,7 @@ const { ArrowFunction } = require('./lib/arrow-function');
 installImplClasses({ ArrowFunction });
 
 const evalAst = ast => {
-  return evalProgram(ast);
+  return evalProgram(ast, {});
 };
 
 const esEval = code => {
