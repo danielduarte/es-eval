@@ -24,10 +24,13 @@ describe('Function scopes', function () {
       )(1111)
     `;
 
+    let errMessage = 'NO ERROR';
     try {
       esEval(exp);
     } catch (err) {
-      assert.deepStrictEqual(err.message, `Identifier not defined: 'b'`);
+      errMessage = err.message;
     }
+
+    assert.deepStrictEqual(errMessage, `Identifier not defined: 'b'`);
   });
 });
