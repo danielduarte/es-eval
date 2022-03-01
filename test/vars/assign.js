@@ -19,6 +19,7 @@ describe('Variable assignment in lambda expressions (let)', function () {
     assert.deepStrictEqual(esEval('() => { let x = 4, y = 8; return x = y; }').exec([], Context.EMPTY), 8);
     assert.deepStrictEqual(esEval('x => x = 2').exec([], Context.EMPTY), 2);
     assert.deepStrictEqual(esEval('x => x = 2').exec([3], Context.EMPTY), 2);
+    assert.deepStrictEqual(esEval('x => x = "a"').exec([], Context.EMPTY), 'a');
   });
 
   it('lambda with re-assigned constant', function () {

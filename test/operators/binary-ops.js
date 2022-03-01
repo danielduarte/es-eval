@@ -20,6 +20,18 @@ describe('Binary operations', function () {
       assert.deepStrictEqual(esEval('true + false'), 1);
       assert.deepStrictEqual(esEval('true + true'), 2);
 
+      // String
+      // @todo add these tests for the rest of the binary operators
+      assert.deepStrictEqual(esEval('"" + ""'), '');
+      assert.deepStrictEqual(esEval('"" + "123"'), '123');
+      assert.deepStrictEqual(esEval('"" + "abc"'), 'abc');
+      assert.deepStrictEqual(esEval('"123" + ""'), '123');
+      assert.deepStrictEqual(esEval('"123" + "123"'), '123123');
+      assert.deepStrictEqual(esEval('"123" + "abc"'), '123abc');
+      assert.deepStrictEqual(esEval('"abc" + ""'), 'abc');
+      assert.deepStrictEqual(esEval('"abc" + "123"'), 'abc123');
+      assert.deepStrictEqual(esEval('"abc" + "abc"'), 'abcabc');
+
       // Numbers with Undefined
       assert.deepStrictEqual(esEval('undefined + 2'), NaN);
       assert.deepStrictEqual(esEval('1 + undefined'), NaN);
@@ -30,11 +42,38 @@ describe('Binary operations', function () {
       assert.deepStrictEqual(esEval('true + 2'), 3);
       assert.deepStrictEqual(esEval('1 + true'), 2);
 
+      // Number with String
+      // @todo add these tests for the rest of the binary operators
+      assert.deepStrictEqual(esEval('"" + 2'), '2');
+      assert.deepStrictEqual(esEval('1 + ""'), '1');
+      assert.deepStrictEqual(esEval('"123" + 2'), '1232');
+      assert.deepStrictEqual(esEval('1 + "123"'), '1123');
+      assert.deepStrictEqual(esEval('"abc" + 2'), 'abc2');
+      assert.deepStrictEqual(esEval('1 + "abc"'), '1abc');
+
       // Undefined with Boolean
       assert.deepStrictEqual(esEval('false + undefined'), NaN);
       assert.deepStrictEqual(esEval('undefined + false'), NaN);
       assert.deepStrictEqual(esEval('true + undefined'), NaN);
       assert.deepStrictEqual(esEval('undefined + true'), NaN);
+
+      // Undefined with String
+      // @todo add these tests for the rest of the binary operators
+      assert.deepStrictEqual(esEval('"" + undefined'), 'undefined');
+      assert.deepStrictEqual(esEval('undefined + ""'), 'undefined');
+      assert.deepStrictEqual(esEval('"abc" + undefined'), 'abcundefined');
+      assert.deepStrictEqual(esEval('undefined + "abc"'), 'undefinedabc');
+
+      // Boolean with String
+      // @todo add these tests for the rest of the binary operators
+      assert.deepStrictEqual(esEval('false + ""'), 'false');
+      assert.deepStrictEqual(esEval('false + "abc"'), 'falseabc');
+      assert.deepStrictEqual(esEval('true + ""'), 'true');
+      assert.deepStrictEqual(esEval('true + "abc"'), 'trueabc');
+      assert.deepStrictEqual(esEval('"" + false'), 'false');
+      assert.deepStrictEqual(esEval('"abc" + false'), 'abcfalse');
+      assert.deepStrictEqual(esEval('"" + true'), 'true');
+      assert.deepStrictEqual(esEval('"abc" + true'), 'abctrue');
     });
 
     it('can subtract (-)', function () {

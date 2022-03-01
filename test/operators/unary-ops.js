@@ -15,6 +15,9 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('+undefined'), NaN);
       assert.deepStrictEqual(esEval('+false'), 0);
       assert.deepStrictEqual(esEval('+true'), 1);
+      assert.deepStrictEqual(esEval('+""'), 0);
+      assert.deepStrictEqual(esEval('+"hi"'), NaN);
+      assert.deepStrictEqual(esEval('+"123"'), 123);
     });
 
     it('unary negation (-)', function () {
@@ -25,6 +28,9 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('-undefined'), NaN);
       assert.deepStrictEqual(esEval('-false'), -0);
       assert.deepStrictEqual(esEval('-true'), -1);
+      assert.deepStrictEqual(esEval('-""'), -0);
+      assert.deepStrictEqual(esEval('-"hi"'), NaN);
+      assert.deepStrictEqual(esEval('-"123"'), -123);
     });
   });
 
@@ -34,6 +40,9 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('~undefined'), -1);
       assert.deepStrictEqual(esEval('~false'), -1);
       assert.deepStrictEqual(esEval('~true'), -2);
+      assert.deepStrictEqual(esEval('~""'), -1);
+      assert.deepStrictEqual(esEval('~"hi"'), -1);
+      assert.deepStrictEqual(esEval('~"123"'), -124);
     });
   });
 
@@ -44,6 +53,10 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('!undefined'), true);
       assert.deepStrictEqual(esEval('!false'), true);
       assert.deepStrictEqual(esEval('!true'), false);
+      assert.deepStrictEqual(esEval('!""'), true);
+      assert.deepStrictEqual(esEval('!"hi"'), false);
+      assert.deepStrictEqual(esEval('!"0"'), false);
+      assert.deepStrictEqual(esEval('!"123"'), false);
     });
   });
 
@@ -53,6 +66,9 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('typeof undefined'), 'undefined');
       assert.deepStrictEqual(esEval('typeof false'), 'boolean');
       assert.deepStrictEqual(esEval('typeof true'), 'boolean');
+      assert.deepStrictEqual(esEval('typeof ""'), 'string');
+      assert.deepStrictEqual(esEval('typeof "hi"'), 'string');
+      assert.deepStrictEqual(esEval('typeof "123"'), 'string');
     });
 
     it('can void (void)', function () {
@@ -60,6 +76,8 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('void undefined'), void 0);
       assert.deepStrictEqual(esEval('void false'), void 0);
       assert.deepStrictEqual(esEval('void true'), void 0);
+      assert.deepStrictEqual(esEval('void ""'), void 0);
+      assert.deepStrictEqual(esEval('void "hi"'), void 0);
     });
 
     it('can delete (delete)', function () {
@@ -67,6 +85,8 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('delete undefined'), false);
       assert.deepStrictEqual(esEval('delete false'), true);
       assert.deepStrictEqual(esEval('delete true'), true);
+      assert.deepStrictEqual(esEval('delete ""'), true);
+      assert.deepStrictEqual(esEval('delete "hi"'), true);
     });
   });
 });

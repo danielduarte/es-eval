@@ -25,6 +25,12 @@ describe('Ternary operations', function () {
       assert.deepStrictEqual(esEval('true ? true : false'), true);
       assert.deepStrictEqual(esEval('true ? true : true'), true);
 
+      // String
+      assert.deepStrictEqual(esEval('""   ? "111" : "222"'), "222");
+      assert.deepStrictEqual(esEval('"hi" ? "111" : "222"'), "111");
+      assert.deepStrictEqual(esEval('"0"  ? "111" : "222"'), "111");
+      assert.deepStrictEqual(esEval('"12" ? "111" : "222"'), "111");
+
       // Numbers with Undefined
       assert.deepStrictEqual(esEval('undefined ? 11 : 22'), 22);
       assert.deepStrictEqual(esEval('1 ? undefined : 22'), void 0);

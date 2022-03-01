@@ -14,6 +14,8 @@ describe('Arrow functions - return statement', function () {
     assert.deepStrictEqual(esEval('() => { return undefined; }').exec([], Context.DEFAULT), void 0);
     assert.deepStrictEqual(esEval('() => { return false; }').exec([], Context.EMPTY), false);
     assert.deepStrictEqual(esEval('() => { return true; }').exec([], Context.EMPTY), true);
+    assert.deepStrictEqual(esEval('() => { return ""; }').exec([], Context.EMPTY), '');
+    assert.deepStrictEqual(esEval('() => { return "XYZ"; }').exec([], Context.EMPTY), 'XYZ');
   });
 
   it('lambda with code block - multiple return', function () {

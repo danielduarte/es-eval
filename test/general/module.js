@@ -7,7 +7,6 @@ describe('Module', function () {
     const module = require('../..');
 
     const actualInterface = typeof module;
-
     const expectedInterface = 'function';
 
     assert.deepStrictEqual(actualInterface, expectedInterface);

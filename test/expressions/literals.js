@@ -21,4 +21,12 @@ describe('Literals', function () {
     assert.deepStrictEqual(esEval('false'), false);
     assert.deepStrictEqual(esEval('true'), true);
   });
+
+  it('string', function () {
+    assert.deepStrictEqual(esEval("''"), '');
+    assert.deepStrictEqual(esEval('""'), '');
+    assert.deepStrictEqual(esEval('"hello"'), 'hello');
+    // @todo Add support for template strings
+    // assert.deepStrictEqual(esEval('``'), '');
+  });
 });
