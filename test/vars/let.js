@@ -10,6 +10,7 @@ describe('Variable declaration in lambda expressions (let)', function () {
   });
 
   it('lambda with let declaration and return', function () {
+    assert.deepStrictEqual(esEval('() => { let c; return c; }').exec([], Context.EMPTY), void 0);
     assert.deepStrictEqual(esEval('() => { let c = 9; return c; }').exec([], Context.EMPTY), 9);
     assert.deepStrictEqual(esEval('() => { let c = (1 + 4) ** 2; return c; }').exec([], Context.EMPTY), 25);
   });

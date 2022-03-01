@@ -10,3 +10,4 @@ require('./functions/lambda-scopes');
 require('./functions/lambda-code-block');
 require('./vars/const');
 require('./vars/let');
+require('./vars/assign');
