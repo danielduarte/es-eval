@@ -12,6 +12,7 @@ const evalAst = ast => {
 };
 
 const esEval = code => {
+  code = `(${code})`;
   const ast = acorn.parse(code, { ecmaVersion: 2022 });
   return evalAst(ast);
 };

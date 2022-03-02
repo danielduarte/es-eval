@@ -18,6 +18,7 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('+""'), 0);
       assert.deepStrictEqual(esEval('+"hi"'), NaN);
       assert.deepStrictEqual(esEval('+"123"'), 123);
+      assert.deepStrictEqual(esEval('+{}'), NaN);
     });
 
     it('unary negation (-)', function () {
@@ -31,6 +32,7 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('-""'), -0);
       assert.deepStrictEqual(esEval('-"hi"'), NaN);
       assert.deepStrictEqual(esEval('-"123"'), -123);
+      assert.deepStrictEqual(esEval('-{}'), NaN);
     });
   });
 
@@ -43,6 +45,7 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('~""'), -1);
       assert.deepStrictEqual(esEval('~"hi"'), -1);
       assert.deepStrictEqual(esEval('~"123"'), -124);
+      assert.deepStrictEqual(esEval('~{}'), -1);
     });
   });
 
@@ -57,6 +60,7 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('!"hi"'), false);
       assert.deepStrictEqual(esEval('!"0"'), false);
       assert.deepStrictEqual(esEval('!"123"'), false);
+      assert.deepStrictEqual(esEval('!{}'), false);
     });
   });
 
@@ -69,6 +73,7 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('typeof ""'), 'string');
       assert.deepStrictEqual(esEval('typeof "hi"'), 'string');
       assert.deepStrictEqual(esEval('typeof "123"'), 'string');
+      assert.deepStrictEqual(esEval('typeof {}'), 'object');
     });
 
     it('can void (void)', function () {
@@ -78,6 +83,7 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('void true'), void 0);
       assert.deepStrictEqual(esEval('void ""'), void 0);
       assert.deepStrictEqual(esEval('void "hi"'), void 0);
+      assert.deepStrictEqual(esEval('void {}'), void 0);
     });
 
     it('can delete (delete)', function () {
@@ -87,6 +93,7 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('delete true'), true);
       assert.deepStrictEqual(esEval('delete ""'), true);
       assert.deepStrictEqual(esEval('delete "hi"'), true);
+      assert.deepStrictEqual(esEval('delete {}'), true);
     });
   });
 });

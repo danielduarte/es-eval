@@ -5,6 +5,10 @@ const { Context } = require('../../lib/context');
 
 describe('Arrow functions - return statement', function () {
 
+  it('lambda with code block - empty statement', function () {
+    assert.deepStrictEqual(esEval('() => { ; }').exec([], Context.EMPTY), void 0);
+  });
+
   it('lambda with code block - empty return only body', function () {
     assert.deepStrictEqual(esEval('() => { return; }').exec([], Context.EMPTY), void 0);
   });

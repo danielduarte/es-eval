@@ -3,6 +3,7 @@ const assert = require('assert');
 const esEval = require('../..');
 
 // @todo test NaN, +-Infinity and other related values
+// @todo test objects
 
 describe('Binary operations', function () {
 

@@ -12,11 +12,13 @@ describe('Constant declaration in lambda expressions (const)', function () {
     assert.deepStrictEqual(esEval('() => { const c = true; }').exec([], Context.EMPTY), void 0);
     assert.deepStrictEqual(esEval('() => { const c = ""; }').exec([], Context.EMPTY), void 0);
     assert.deepStrictEqual(esEval('() => { const c = "a"; }').exec([], Context.EMPTY), void 0);
+    assert.deepStrictEqual(esEval('() => { const c = { a: 1 }; }').exec([], Context.EMPTY), void 0);
   });
 
   it('lambda with const declaration and return', function () {
     assert.deepStrictEqual(esEval('() => { const c = 9; return c; }').exec([], Context.EMPTY), 9);
     assert.deepStrictEqual(esEval('() => { const c = (1 + 4) ** 2; return c; }').exec([], Context.EMPTY), 25);
+    assert.deepStrictEqual(esEval('() => { const c = { a: 1 }; return c; }').exec([], Context.EMPTY), { a: 1 });
   });
 
   it('lambda with multiple const declaration', function () {

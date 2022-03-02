@@ -2,8 +2,6 @@ const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
 
-// @todo check Infinity and NaN are not overridden (they are valid identifiers, the same as 'undefined')
-
 describe('Literals', function () {
 
   it('number', function () {
@@ -28,5 +26,15 @@ describe('Literals', function () {
     assert.deepStrictEqual(esEval('"hello"'), 'hello');
     // @todo Add support for template strings
     // assert.deepStrictEqual(esEval('``'), '');
+  });
+
+  it('object', function () {
+    assert.deepStrictEqual(esEval('{}'), {});
+    assert.deepStrictEqual(esEval('{ a: 1 }'), { a: 1 });
+    assert.deepStrictEqual(esEval('{ a: undefined }'), { a: void 0 });
+    assert.deepStrictEqual(esEval('{ a: false }'), { a: false });
+    assert.deepStrictEqual(esEval('{ a: true }'), { a: true });
+    assert.deepStrictEqual(esEval('{ a: "test" }'), { a: 'test' });
+    assert.deepStrictEqual(esEval('{ a: 1, b: 2, c: 3 }'), { a: 1, b: 2, c: 3 });
   });
 });
