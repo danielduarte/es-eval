@@ -23,6 +23,9 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('+[]'), 0);
       assert.deepStrictEqual(esEval('+[12]'), 12);
       assert.deepStrictEqual(esEval('+[1, 2]'), NaN);
+      assert.deepStrictEqual(esEval('+(() => {})'), NaN);
+      assert.deepStrictEqual(esEval('+(x => x)'), NaN);
+      assert.deepStrictEqual(esEval('+((x, y) => { const a = 1; return a + x + y; })'), NaN);
     });
 
     it('unary negation (-)', function () {
@@ -41,6 +44,9 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('-[]'), -0);
       assert.deepStrictEqual(esEval('-[12]'), -12);
       assert.deepStrictEqual(esEval('-[1, 2]'), NaN);
+      assert.deepStrictEqual(esEval('-(() => {})'), NaN);
+      assert.deepStrictEqual(esEval('-(x => x)'), NaN);
+      assert.deepStrictEqual(esEval('-((x, y) => { const a = 1; return a + x + y; })'), NaN);
     });
   });
 
@@ -58,6 +64,9 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('~[]'), -1);
       assert.deepStrictEqual(esEval('~[12]'), -13);
       assert.deepStrictEqual(esEval('~[1, 2]'), -1);
+      assert.deepStrictEqual(esEval('~(() => {})'), -1);
+      assert.deepStrictEqual(esEval('~(x => x)'), -1);
+      assert.deepStrictEqual(esEval('~((x, y) => { const a = 1; return a + x + y; })'), -1);
     });
   });
 
@@ -78,6 +87,9 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('![0]'), false);
       assert.deepStrictEqual(esEval('![12]'), false);
       assert.deepStrictEqual(esEval('![1, 2]'), false);
+      assert.deepStrictEqual(esEval('!(() => {})'), false);
+      assert.deepStrictEqual(esEval('!(x => x)'), false);
+      assert.deepStrictEqual(esEval('!((x, y) => { const a = 1; return a + x + y; })'), false);
     });
   });
 
@@ -94,6 +106,9 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('typeof { a: 1 }'), 'object');
       assert.deepStrictEqual(esEval('typeof []'), 'object');
       assert.deepStrictEqual(esEval('typeof [1, 2]'), 'object');
+      assert.deepStrictEqual(esEval('typeof (() => {})'), 'function');
+      assert.deepStrictEqual(esEval('typeof (x => x)'), 'function');
+      assert.deepStrictEqual(esEval('typeof ((x, y) => { const a = 1; return a + x + y; })'), 'function');
     });
 
     it('can void (void)', function () {
@@ -107,6 +122,9 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('void { a: 1 }'), void 0);
       assert.deepStrictEqual(esEval('void []'), void 0);
       assert.deepStrictEqual(esEval('void [1, 2]'), void 0);
+      assert.deepStrictEqual(esEval('void (() => {})'), void 0);
+      assert.deepStrictEqual(esEval('void (x => x)'), void 0);
+      assert.deepStrictEqual(esEval('void ((x, y) => { const a = 1; return a + x + y; })'), void 0);
     });
 
     it('can delete (delete)', function () {
@@ -120,6 +138,9 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('delete { a: 1 }'), true);
       assert.deepStrictEqual(esEval('delete []'), true);
       assert.deepStrictEqual(esEval('delete [1, 2]'), true);
+      assert.deepStrictEqual(esEval('delete (() => {})'), true);
+      assert.deepStrictEqual(esEval('delete (x => x)'), true);
+      assert.deepStrictEqual(esEval('delete ((x, y) => { const a = 1; return a + x + y; })'), true);
     });
   });
 });
