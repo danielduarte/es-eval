@@ -37,4 +37,10 @@ describe('Literals', function () {
     assert.deepStrictEqual(esEval('{ a: "test" }'), { a: 'test' });
     assert.deepStrictEqual(esEval('{ a: 1, b: 2, c: 3 }'), { a: 1, b: 2, c: 3 });
   });
+
+  it('array', function () {
+    assert.deepStrictEqual(esEval('[]'), []);
+    assert.deepStrictEqual(esEval('[1, 2, 3]'), [1, 2, 3]);
+    assert.deepStrictEqual(esEval('[123, true, false, undefined, NaN, Infinity, "", { a: 1 }, [1, 2, 3, []]]'), [123, true, false, void 0, NaN, Infinity, "", { a: 1 }, [1, 2, 3, []]]);
+  });
 });

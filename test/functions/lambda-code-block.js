@@ -20,6 +20,8 @@ describe('Arrow functions - return statement', function () {
     assert.deepStrictEqual(esEval('() => { return true; }').exec([], Context.EMPTY), true);
     assert.deepStrictEqual(esEval('() => { return ""; }').exec([], Context.EMPTY), '');
     assert.deepStrictEqual(esEval('() => { return "XYZ"; }').exec([], Context.EMPTY), 'XYZ');
+    assert.deepStrictEqual(esEval('() => { return {}; }').exec([], Context.EMPTY), {});
+    assert.deepStrictEqual(esEval('() => { return []; }').exec([], Context.EMPTY), []);
   });
 
   it('lambda with code block - multiple return', function () {

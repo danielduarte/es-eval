@@ -18,6 +18,8 @@ describe('Arrow functions', function () {
     assert.deepStrictEqual(esEval('() => true').exec([], Context.EMPTY), true);
     assert.deepStrictEqual(esEval('() => ""').exec([], Context.EMPTY), '');
     assert.deepStrictEqual(esEval('() => "abc"').exec([], Context.EMPTY), 'abc');
+    assert.deepStrictEqual(esEval('() => ({})').exec([], Context.EMPTY), {});
+    assert.deepStrictEqual(esEval('() => []').exec([], Context.EMPTY), []);
   });
 
   it('lambdas expressions', function () {
@@ -26,6 +28,8 @@ describe('Arrow functions', function () {
     assert.deepStrictEqual(esEval('() => undefined ?? 44').exec([], Context.DEFAULT), 44);
     assert.deepStrictEqual(esEval('() => 1 ? 2 : 3').exec([], Context.EMPTY), 2);
     assert.deepStrictEqual(esEval('() => "0" ? "yes" : "no"').exec([], Context.EMPTY), 'yes');
+    assert.deepStrictEqual(esEval('() => ({}) ? "yes" : "no"').exec([], Context.EMPTY), 'yes');
+    assert.deepStrictEqual(esEval('() => [] ? "yes" : "no"').exec([], Context.EMPTY), 'yes');
   });
 
   it('lambdas parameters - identity function', function () {
@@ -35,9 +39,11 @@ describe('Arrow functions', function () {
     assert.deepStrictEqual(identityFn.exec([Infinity], Context.EMPTY), Infinity);
     assert.deepStrictEqual(identityFn.exec([void 0], Context.EMPTY), void 0);
     assert.deepStrictEqual(identityFn.exec([], Context.EMPTY), void 0);
-    assert.deepStrictEqual(identityFn.exec(['A'], Context.EMPTY), 'A');
     assert.deepStrictEqual(identityFn.exec([false], Context.EMPTY), false);
     assert.deepStrictEqual(identityFn.exec([true], Context.EMPTY), true);
+    assert.deepStrictEqual(identityFn.exec(['A'], Context.EMPTY), 'A');
+    assert.deepStrictEqual(identityFn.exec([{}], Context.EMPTY), {});
+    assert.deepStrictEqual(identityFn.exec([[]], Context.EMPTY), []);
   });
 
   it('lambdas parameters - many params', function () {

@@ -3,7 +3,7 @@ const assert = require('assert');
 const esEval = require('../..');
 
 // @todo test NaN, +-Infinity and other related values
-// @todo test objects
+// @todo test objects and arrays
 
 describe('Ternary operations', function () {
 
