@@ -12,9 +12,9 @@ describe('Built-in array features', function () {
 
   it('push', function () {
     assert.deepStrictEqual(esEval('[].push(5)'), 1);
-
-    // @todo implement variable qty of params
-    // assert.deepStrictEqual(esEval('[].push(6, 5, 4, 3, 2, 1)'), 6);
-    // assert.deepStrictEqual(esEval('(() => { const a = []; const added = a.push(5); return { a, added }; })()'), 1);
+    assert.deepStrictEqual(esEval('[undefined].push(5)'), 2);
+    assert.deepStrictEqual(esEval('[].push(6, 5, 4, 3, 2, 1)'), 6);
+    assert.deepStrictEqual(esEval('[8, 7].push(6, 5, 4, 3, 2, 1)'), 8);
+    assert.deepStrictEqual(esEval('(() => { const a = [7, 6]; const count = a.push(5); return { array: a, count: count }; })()'), { array: [7, 6, 5], count: 3 });
   });
 });
