@@ -7,6 +7,7 @@ require('./operators/ternary-ops');
 require('./functions/lambda-basic');
 require('./functions/lambda-scopes');
 require('./functions/lambda-code-block');
+require('./functions/methods');
 require('./expressions/nested');
 require('./vars/const');
 require('./vars/let');

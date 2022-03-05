@@ -37,4 +37,21 @@ describe('Objects', function () {
     assert.deepStrictEqual(esEval(objStr), obj);
     assert.deepStrictEqual(esEval(JSON.stringify(obj)), obj);
   });
+
+  it('can access a property (literal object, not computed property)', function () {
+    assert.deepStrictEqual(esEval('({ a: 123 }).a' ), 123);
+  });
+
+  it('can access a property (literal object, computed property)', function () {
+    assert.deepStrictEqual(esEval('({ a: 123 })["a"]' ), 123);
+    assert.deepStrictEqual(esEval('({ a12: 123 })["a" + 12]' ), 123);
+  });
+
+  it('can access a property (computed object, not computed property)', function () {
+    assert.deepStrictEqual(esEval('(() => ({ a: 123 }))().a' ), 123);
+  });
+
+  it('can set a property', function () {
+    assert.deepStrictEqual(esEval('({}).prop = 4' ), 4);
+  });
 });
