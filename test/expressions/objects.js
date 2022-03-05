@@ -7,7 +7,7 @@ describe('Objects', function () {
   it('object with literal keys', function () {
     assert.deepStrictEqual(esEval('{ "a": 1 }'), { a: 1 });
     assert.deepStrictEqual(esEval("{ 'a': 1 }"), { a: 1 });
-    // assert.deepStrictEqual(esEval('{ `a`: 1 }'), { a: 1 }); // @todo do not support string templaes as object keys (add test)
+    // assert.deepStrictEqual(esEval('{ `a`: 1 }'), { a: 1 }); // @todo do not support string templates as object keys (add test)
     assert.deepStrictEqual(esEval('{ 5: 1 }'), { 5: 1 });
     assert.deepStrictEqual(esEval('{ "5": 1 }'), { 5: 1 });
     assert.deepStrictEqual(esEval('{ undefined: 1 }'), { 'undefined': 1 });

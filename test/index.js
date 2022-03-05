@@ -13,3 +13,4 @@ require('./vars/const');
 require('./vars/let');
 require('./vars/assign');
 require('./expressions/objects');
+require('./built-in/arrays');
