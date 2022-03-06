@@ -806,3 +806,5 @@ describe('Binary operations', function () {
     });
   });
 });
+
+// @todo support short-circuit expressions: ?., ||=, &&=, ??=
