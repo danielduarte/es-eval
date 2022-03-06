@@ -14,3 +14,4 @@ require('./vars/let');
 require('./vars/assign');
 require('./expressions/objects');
 require('./built-in/arrays');
+require('./general/user-vars');

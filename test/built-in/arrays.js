@@ -4,6 +4,15 @@ const esEval = require('../..');
 
 describe('Built-in array features', function () {
 
+  it('indexed access', function () {
+    assert.deepStrictEqual(esEval('["a", "b"][1]'), 'b');
+    assert.deepStrictEqual(esEval('["a", "b"][-1]'), void 0);
+    assert.deepStrictEqual(esEval('["a", "b"][2]'), void 0);
+    assert.deepStrictEqual(esEval('[][5]'), void 0);
+    assert.deepStrictEqual(esEval('[123]["0"]'), 123);
+    assert.deepStrictEqual(esEval('[123]["string key"]'), void 0);
+  });
+
   it('length', function () {
     assert.deepStrictEqual(esEval('[].length'), 0);
     assert.deepStrictEqual(esEval('[6, 6, 6, 6].length'), 4);

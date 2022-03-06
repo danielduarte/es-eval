@@ -32,4 +32,34 @@ describe('Variable assignment in lambda expressions (let)', function () {
 
     assert.deepStrictEqual(errMessage, `Cannot re-assign a constant: 'c'`);
   });
+
+  it('default globals are not overridden when assigned', function () {
+    assert.deepStrictEqual(esEval('(() => { undefined = "custom"; return undefined })()'), void 0);
+    assert.deepStrictEqual(esEval('(() => { NaN = "custom"; return NaN })()'), NaN);
+    assert.deepStrictEqual(esEval('(() => { Infinity = "custom"; return Infinity })()'), Infinity);
+  });
+
+  it('default globals can be redefined', function () {
+    // const
+    assert.deepStrictEqual(esEval('(() => { const undefined = "custom"; return undefined })()'), 'custom');
+    assert.deepStrictEqual(esEval('(() => { const NaN = "custom"; return NaN })()'), 'custom');
+    assert.deepStrictEqual(esEval('(() => { const Infinity = "custom"; return Infinity })()'), 'custom');
+
+    // let
+    assert.deepStrictEqual(esEval('(() => { const undefined = "custom"; return undefined })()'), 'custom');
+    assert.deepStrictEqual(esEval('(() => { const NaN = "custom"; return NaN })()'), 'custom');
+    assert.deepStrictEqual(esEval('(() => { const Infinity = "custom"; return Infinity })()'), 'custom');
+  });
+
+  it('default globals are overridden when assigned if they were redefined', function () {
+    // Without initialization
+    assert.deepStrictEqual(esEval('(() => { let undefined; undefined = 7; return undefined })()'), 7);
+    assert.deepStrictEqual(esEval('(() => { let NaN; NaN = 7; return NaN })()'), 7);
+    assert.deepStrictEqual(esEval('(() => { let Infinity; Infinity = 7; return Infinity })()'), 7);
+
+    // With initialization
+    assert.deepStrictEqual(esEval('(() => { let undefined = "custom"; undefined = 7; return undefined })()'), 7);
+    assert.deepStrictEqual(esEval('(() => { let NaN = "custom"; NaN = 7; return NaN })()'), 7);
+    assert.deepStrictEqual(esEval('(() => { let Infinity = "custom"; Infinity = 7; return Infinity })()'), 7);
+  });
 });
