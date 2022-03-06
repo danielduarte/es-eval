@@ -2,7 +2,7 @@ const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
 
-// @todo test NaN, +-Infinity and other related values
+// @todo test NaN, +-Infinity, null and other related values
 // @todo test objects and arrays
 
 describe('Binary operations', function () {

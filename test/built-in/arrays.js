@@ -11,6 +11,7 @@ describe('Built-in array features', function () {
     assert.deepStrictEqual(esEval('[][5]'), void 0);
     assert.deepStrictEqual(esEval('[123]["0"]'), 123);
     assert.deepStrictEqual(esEval('[123]["string key"]'), void 0);
+    assert.deepStrictEqual(esEval('[][null]'), void 0);
   });
 
   it('length', function () {
@@ -20,10 +21,12 @@ describe('Built-in array features', function () {
   });
 
   it('push', function () {
+    // @todo add tests running methods on values like null (ex: 'null.push(5)') or getting props like null.length
     assert.deepStrictEqual(esEval('[].push(5)'), 1);
     assert.deepStrictEqual(esEval('[undefined].push(5)'), 2);
     assert.deepStrictEqual(esEval('[].push(6, 5, 4, 3, 2, 1)'), 6);
     assert.deepStrictEqual(esEval('[8, 7].push(6, 5, 4, 3, 2, 1)'), 8);
     assert.deepStrictEqual(esEval('(() => { const a = [7, 6]; const count = a.push(5); return { array: a, count: count }; })()'), { array: [7, 6, 5], count: 3 });
+    assert.deepStrictEqual(esEval('(() => { const a = []; a.push(null, undefined, NaN, Infinity); return a; })()'), [null, void 0, NaN, Infinity]);
   });
 });

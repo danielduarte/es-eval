@@ -6,6 +6,10 @@ describe('User variables', function () {
 
   it('user variables are read and written', function () {
     assert.deepStrictEqual(esEval('x', { x: 54321 }), 54321);
+    assert.deepStrictEqual(esEval('x', { x: void 0 }), void 0);
+    assert.deepStrictEqual(esEval('x', { x: NaN }), NaN);
+    assert.deepStrictEqual(esEval('x', { x: Infinity }), Infinity);
+    assert.deepStrictEqual(esEval('x', { x: null }), null);
     assert.deepStrictEqual(esEval('x', { x: [1, 2, 3, 4] }), [1, 2, 3, 4]);
     assert.deepStrictEqual(esEval('x.length', { x: [1, 2, 3, 4] }), 4);
     assert.deepStrictEqual(esEval('x = x', { x: 54321 }), 54321);
@@ -47,4 +51,8 @@ describe('User variables', function () {
     assert.deepStrictEqual(esEval('NaN', { 'NaN': 'my custom NaN' }), 'my custom NaN');
     assert.deepStrictEqual(esEval('Infinity', { 'Infinity': 'my custom Infinity' }), 'my custom Infinity');
   });
+
+  // @todo test user adding invalid Ids
+  // @todo test user adding keywords
+  // @todo test user adding vars named 'null', 'true', 'false'
 });
