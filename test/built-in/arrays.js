@@ -29,4 +29,13 @@ describe('Built-in array features', function () {
     assert.deepStrictEqual(esEval('(() => { const a = [7, 6]; const count = a.push(5); return { array: a, count: count }; })()'), { array: [7, 6, 5], count: 3 });
     assert.deepStrictEqual(esEval('(() => { const a = []; a.push(null, undefined, NaN, Infinity); return a; })()'), [null, void 0, NaN, Infinity]);
   });
+
+  it('map', function () {
+    // @todo add tests for the thisArg parameter when supported (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+    assert.deepStrictEqual(esEval('[].map(x => x)'), []);
+    assert.deepStrictEqual(esEval('[3, 4, 5].map(x => x)'), [3, 4, 5]);
+    assert.deepStrictEqual(esEval('[3, 4, 5].map(x => 2 * x)'), [6, 8, 10]);
+    assert.deepStrictEqual(esEval('(() => { const a = [2, 4, 6]; const b = a.map(x => x / 2); return { a: a, b: b }; })()'), { a: [2, 4, 6], b: [1, 2, 3] });
+    assert.deepStrictEqual(esEval('(() => { const fn = x => "[" + x + "]"; return [[1, 2, 3].map(fn), [undefined, "a", "b"].map(fn)]; })()'), [["[1]", "[2]", "[3]"], ["[undefined]", "[a]", "[b]"]]);
+  });
 });
