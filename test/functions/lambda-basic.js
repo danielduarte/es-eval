@@ -11,9 +11,9 @@ describe('Arrow functions', function () {
 
   it('lambda literal expressions', function () {
     assert.deepStrictEqual(esEval('() => 1234').exec([], Context.EMPTY), 1234);
+    assert.deepStrictEqual(esEval('() => undefined').exec([], Context.DEFAULT), void 0);
     assert.deepStrictEqual(esEval('() => NaN').exec([], Context.DEFAULT), NaN);
     assert.deepStrictEqual(esEval('() => Infinity').exec([], Context.DEFAULT), Infinity);
-    assert.deepStrictEqual(esEval('() => undefined').exec([], Context.DEFAULT), void 0);
     assert.deepStrictEqual(esEval('() => false').exec([], Context.EMPTY), false);
     assert.deepStrictEqual(esEval('() => true').exec([], Context.EMPTY), true);
     assert.deepStrictEqual(esEval('() => ""').exec([], Context.EMPTY), '');

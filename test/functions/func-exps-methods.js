@@ -8,7 +8,7 @@ describe('Methods', function () {
     const exp = `
       (() => {
         return {
-          method: () => 3.14
+          method: function () { return 3.14; }
         };
       })().method()
     `;
