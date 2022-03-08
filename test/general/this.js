@@ -5,6 +5,37 @@ const esEval = require('../..');
 describe('General', function () {
   // @todo check if should support a global object
   it('global this - set as undefined in this implementation', function () {
-    assert.deepStrictEqual(esEval('this'), void 0);
+    const globalThis = {};
+    assert.deepStrictEqual(esEval('this'), globalThis);
+  });
+
+  it('this on function expressions', function () {
+    const exp = `
+      (() => {
+        const obj = {
+          prop: 'value',
+          method: function () {
+            return this.prop + '!';
+          },
+        };
+        return obj.method();
+      })()
+    `;
+    assert.deepStrictEqual(esEval(exp), 'value!');
+  });
+
+  it('this on arrow function expressions', function () {
+    const exp = `
+      (() => {
+        const obj = {
+          prop: 'value',
+          method: () => {
+            return this.prop + '!';
+          },
+        };
+        return obj.method();
+      })()
+    `;
+    assert.deepStrictEqual(esEval(exp), 'undefined!');
   });
 });

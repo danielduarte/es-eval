@@ -35,4 +35,32 @@ describe('Arrow functions - return statement', function () {
   it('lambda with code block - no return returns undefined', function () {
     assert.deepStrictEqual(esEval('() => { 5 }').exec([], Context.EMPTY), void 0);
   });
+
+  it('lambda function - passing a callback parameter', function () {
+    const exp = `
+      (() => {
+        const out = [];
+
+        const callback = () => {
+          out.push('callback called!');
+        };
+
+        const main = (param, cb) => {
+          out.push('started main with ' + param);
+          cb();
+          out.push('finished main');
+        };
+
+        main('main value', callback);
+
+        return out;
+      })()
+    `;
+
+    assert.deepStrictEqual(esEval(exp), [
+      'started main with main value',
+      'callback called!',
+      'finished main'
+    ]);
+  });
 });
