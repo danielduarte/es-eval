@@ -2,11 +2,11 @@
 
 const acorn = require('acorn');
 const { evalProgram, installImplClasses, installBuiltIns } = require('./lib/eval');
-const { ArrowFunction } = require('./lib/arrow-function');
-const { builtIns, builtInsImpls } = require('./lib/arrow-function');
+const { AbstractFunction, GenericFunction } = require('./lib/function');
+const { builtIns, builtInsImpls } = require('./lib/function');
 const { Context } = require('./lib/context');
 
-installImplClasses({ ArrowFunction });
+installImplClasses({ AbstractFunction, GenericFunction });
 installBuiltIns(builtIns, builtInsImpls);
 
 const evalAst = (ast, vars) => {

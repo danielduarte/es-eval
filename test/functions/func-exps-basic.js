@@ -3,6 +3,8 @@ const assert = require('assert');
 const esEval = require('../..');
 const { Context } = require('../../lib/context');
 
+// @todo add support for function declarations
+
 describe('Function expressions', function () {
 
   it('function empty body', function () {
