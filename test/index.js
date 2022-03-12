@@ -22,3 +22,4 @@ require('./vars/user-vars');
 require('./built-in/arrays');
 require('./general/this');
 require('./statements/blocks');
+require('./statements/if');

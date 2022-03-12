@@ -4,6 +4,7 @@ const esEval = require('../..');
 const { Context } = require('../../lib/context');
 
 // @todo add support for function declarations
+// @todo add recursion test
 
 describe('Function expressions', function () {
 
