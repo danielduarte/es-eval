@@ -46,10 +46,9 @@ describe('General', function () {
       assert.deepStrictEqual(esEval('typeof request_body.items !== "undefined"', {request_body: {items: 9}}), true);
       assert.deepStrictEqual(esEval('validCompany.isManaged === false && typeof validCompany.dbId === "string"', {validCompany: {isManaged: false, dbId: ''}}), true);
       assert.deepStrictEqual(esEval('this.roles', {}), void 0);
-
-      // @todo implement JSON
-      // assert.deepStrictEqual(esEval('uncheckedPriceList.error ? uncheckedPriceList.error : {error:"Could not find the price list ("+JSON.stringify(priceListFilter)+")"}', { uncheckedPriceList: 11111 }), {});
-      // assert.deepStrictEqual(esEval('{...$root.queryParams, filter: JSON.parse(($root.queryParams||{}).filter || '{}')}', { xxxxx: 11111 }), {});
+      assert.deepStrictEqual(esEval('productImages.reduce((acc, img) => { img.url=baseUrlBody.value+"/"+img.id; acc[img.id]=img; return acc; }, {})', { productImages: [{id: 1111}, {id: 2222}], baseUrlBody: {value: 'http://hola.com'} }), { '1111': { id: 1111, url: 'http://hola.com/1111' }, '2222': { id: 2222, url: 'http://hola.com/2222' } });
+      assert.deepStrictEqual(esEval('prices.length>0 && prices.reduce((min,p) => p.itemCode===11 && p.price<min ? p.price:min, Infinity) || null', { prices: [{id: 'p1',itemCode:11, price:123}, {id: 'p1',itemCode:11, price:120}, {id: 'p1',itemCode:11, price:150}] }), 120);
+      assert.deepStrictEqual(esEval('prices.length>0 && prices.reduce((min,p)=>p.price<min?p.price:min,Infinity) || null', { prices: [{price:3}, {price:-5},{price:32}] }), -5);
 
       // @todo implement array.includes
       // assert.deepStrictEqual(esEval('typeof userType === "string" && ["root", "operator", "customer", "guest"].includes(userType)', { xxxxx: 11111 }), true);
@@ -57,19 +56,8 @@ describe('General', function () {
       // assert.deepStrictEqual(esEval('productsWithPrices.map(p => { p.isAvailable=availableProductIds.includes(p.id); return p; })', { productsWithPrices: [{id:5}],availableProductIds:[3,4,5] }), true);
       // assert.deepStrictEqual(esEval('productsWithMainStock.map(  p => { p.isAvailable = !!p.isAvailable && (typeof p.children === "undefined" || p.children.filter(child => availableProductIds.includes(child.childId)).length > 0); return p }  )', { productsWithMainStock: [{isAvailable: true,children:[]}] }), [{ isAvailable: true}]);
 
-      // @todo implement string.trim
-      // assert.deepStrictEqual(esEval('sanitizedData.ruleenabled && sanitizedData.ruleenabled.trim().toLowerCase() === "yes" ? true : (sanitizedData.ruleenabled && sanitizedData.ruleenabled.trim().toLowerCase() === "no" ? false : true)', { sanitizedData: { ruleenabled: "s"} }), {});
-
-      // @todo implement array.reduce
-      // assert.deepStrictEqual(esEval('productImages.reduce((acc, img) => { img.url=baseUrlBody.value+'/'+img.id; acc[img.id]=img; return acc; }, {})', { xxxxx: 11111 }), {});
-      // assert.deepStrictEqual(esEval('products.map(p=>p.id).concat(products.filter(p=>p.type=='configurable').reduce((acc, p) => { acc = [...acc, ...p.children.map(ch=>ch.childId)]; return acc; }, []))', { xxxxx: 11111 }), {});
-      // assert.deepStrictEqual(esEval('$root.prices.length>0 && $root.prices.reduce((min,p) => p.itemCode===this.id && p.price<min ? p.price:min, Infinity) || null', { xxxxx: 11111 }), {});
-      // assert.deepStrictEqual(esEval('Object.entries(sanitizationMap).reduce((acc, [sanitizedField, rawField]) => { acc[sanitizedField] = entityData[rawField]; return acc; }, {})', { xxxxx: 11111 }), {});
-      // assert.deepStrictEqual(esEval('Object.keys(entityData).map(field => [ field, field.toLowerCase().replace(/[^a-z0-9]/g, '') ]).reduce((acc, item) => { acc[item[1]]=item[0]; return acc; }, {})', { xxxxx: 11111 }), {});
-      // assert.deepStrictEqual(esEval('imageAssets.reduce((acc, elem) => { return [...acc, ...elem.productImage]; }, []).reduce((acc, img) => { img.url=baseUrlBody.value+'/'+img.id; acc[img.id]=img; return acc; }, {})', { xxxxx: 11111 }), {});
-      // assert.deepStrictEqual(esEval('prices.length>0 && prices.reduce((min,p)=>p.price<min?p.price:min,Infinity) || null', { prices: [{price:3}, {price:-5},{price:32}] }), -5);
-
       // @todo implement array.filter
+      // assert.deepStrictEqual(esEval('products.map(p=>p.id).concat(products.filter(p=>p.type=="configurable").reduce((acc, p) => { acc = [...acc, ...p.children.map(ch=>ch.childId)]; return acc; }, []))', { products: [{type:'configurable'},{type:'simple'},{type:'configurable',children: [{childId:'ch1'}, {childId:'ch2'}]}] }), {});
       // assert.deepStrictEqual(esEval('$root.prices.filter(p=>p.itemCode === this.id).map(p => { delete p.id; delete p.itemCode; delete p.priceList; return p; })', { $root: {prices:[{price:3,id:4,itemCode:90}, {price:-5},{price:32,itemCode:[]}]} }), {});
       // assert.deepStrictEqual(esEval('[    { message:"Could not create TaxRule",info:$root.taxRuleResult }     ].filter(result => !!result.info.error)', { $root: 11111 }), {});
       // assert.deepStrictEqual(esEval('[     { message:"Could not create Tax",info:$root.taxResult },     { message:"Could not create TaxZone",info:$root.taxZoneResult },     { message:"Could not create CustomerTaxClass",info:$root.customerTaxClassResult },       { message:"Could not create ProductTaxClass",info:$root.productTaxClassResult }        ].filter(result => !!result.info.error)', { $root: 11111 }), {});
@@ -77,12 +65,24 @@ describe('General', function () {
       // @todo implement spread
       // assert.deepStrictEqual(esEval('[...new Set((request_body.items || []).map(item => item.productId))]', { xxxxx: 11111 }), {});
       // assert.deepStrictEqual(esEval('body.map(asset => ({ ...asset, url: `${baseUrlBody.value}/${asset.id}`}))', { body: [{},{}] }), {});
+      // assert.deepStrictEqual(esEval('imageAssets.reduce((acc, elem) => { return [...acc, ...elem.productImage]; }, []).reduce((acc, img) => { img.url=baseUrlBody.value+"/"+img.id; acc[img.id]=img; return acc; }, {})', { imageAssets: [{productImage:{id:'i1'}}, {productImage:{id:'i2'}}], baseUrlBody: {value: 'http://chau.com'} }), 1111);
+
+      // @todo implement JSON
+      // assert.deepStrictEqual(esEval('uncheckedPriceList.error ? uncheckedPriceList.error : {error:"Could not find the price list ("+JSON.stringify(priceListFilter)+")"}', { uncheckedPriceList: 11111 }), {});
+      // assert.deepStrictEqual(esEval('{...$root.queryParams, filter: JSON.parse(($root.queryParams||{}).filter || '{}')}', { xxxxx: 11111 }), {});
 
       // @todo fix expression
       // assert.deepStrictEqual(esEval('delete stockItem.productId && stockItem', { stockItem: 11111 }), 11111);
       // assert.deepStrictEqual(esEval('prices.map(p => { delete p.id; delete p.itemCode; delete p.priceList; return p; })', { prices: [{price:3,id:4,itemCode:90}, {price:-5},{price:32,itemCode:[]}] } ), [{price:3}, {price:-5},{price:32}]);
 
-      // @todo implement parseFloat
+      // @todo implement Object
+      // assert.deepStrictEqual(esEval('Object.entries(sanitizationMap).reduce((acc, [sanitizedField, rawField]) => { acc[sanitizedField] = entityData[rawField]; return acc; }, {})', { xxxxx: 11111 }), {});
+      // assert.deepStrictEqual(esEval('Object.keys(entityData).map(field => [ field, field.toLowerCase().replace(/[^a-z0-9]/g, "") ]).reduce((acc, item) => { acc[item[1]]=item[0]; return acc; }, {})', { xxxxx: 11111 }), {});
+
+      // @todo implement string.trim
+      // assert.deepStrictEqual(esEval('sanitizedData.ruleenabled && sanitizedData.ruleenabled.trim().toLowerCase() === "yes" ? true : (sanitizedData.ruleenabled && sanitizedData.ruleenabled.trim().toLowerCase() === "no" ? false : true)', { sanitizedData: { ruleenabled: "s"} }), {});
+
+      // @todo  parseFloat
       // assert.deepStrictEqual(esEval('parseFloat(sanitizedData.taxrate)', { xxxxx: 11111 }), {});
     });
   });

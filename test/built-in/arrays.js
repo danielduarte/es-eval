@@ -38,4 +38,12 @@ describe('Built-in array features', function () {
     assert.deepStrictEqual(esEval('(() => { const a = [2, 4, 6]; const b = a.map(x => x / 2); return { a: a, b: b }; })()'), { a: [2, 4, 6], b: [1, 2, 3] });
     assert.deepStrictEqual(esEval('(() => { const fn = x => "[" + x + "]"; return [[1, 2, 3].map(fn), [undefined, "a", "b"].map(fn)]; })()'), [["[1]", "[2]", "[3]"], ["[undefined]", "[a]", "[b]"]]);
   });
+
+  it('reduce', function () {
+    assert.deepStrictEqual(esEval('[1, 2, 3, 4].reduce((acc, elem) => acc + elem, 1000)'), 1000 + 1 + 2 + 3 + 4);
+    assert.deepStrictEqual(esEval('[1, 2, 3, 4].reduce((acc, elem) => acc + elem)'), 1 + 2 + 3 + 4);
+    assert.deepStrictEqual(esEval('[1, 2, 3, 4].reduce((acc, elem) => acc + elem, undefined)'), NaN);
+    assert.deepStrictEqual(esEval('["A", "B", "C"].reduce((acc, elem, ix) => { acc.push(elem + " at " + ix); return acc; }, [])'), ['A at 0', 'B at 1', 'C at 2']);
+    assert.deepStrictEqual(esEval('["A", "B", "C"].reduce((acc, elem, i, array) => { if (i === 1) array.push("?"); acc.push(array.length); return acc; }, [])'), [3, 4, 4]);
+  });
 });
