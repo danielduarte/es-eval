@@ -23,4 +23,5 @@ require('./built-in/arrays');
 require('./general/this');
 require('./statements/blocks');
 require('./statements/if');
+require('./statements/while');
 require('./general/random-expressions');
