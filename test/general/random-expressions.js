@@ -48,14 +48,12 @@ describe('Random cases', function () {
     assert.deepStrictEqual(esEval('productImages.reduce((acc, img) => { img.url=baseUrlBody.value+"/"+img.id; acc[img.id]=img; return acc; }, {})', { productImages: [{id: 1111}, {id: 2222}], baseUrlBody: {value: 'http://hola.com'} }), { '1111': { id: 1111, url: 'http://hola.com/1111' }, '2222': { id: 2222, url: 'http://hola.com/2222' } });
     assert.deepStrictEqual(esEval('prices.length>0 && prices.reduce((min,p) => p.itemCode===11 && p.price<min ? p.price:min, Infinity) || null', { prices: [{id: 'p1',itemCode:11, price:123}, {id: 'p1',itemCode:11, price:120}, {id: 'p1',itemCode:11, price:150}] }), 120);
     assert.deepStrictEqual(esEval('prices.length>0 && prices.reduce((min,p)=>p.price<min?p.price:min,Infinity) || null', { prices: [{price:3}, {price:-5},{price:32}] }), -5);
-
-    // @todo implement array.includes
-    // assert.deepStrictEqual(esEval('typeof userType === "string" && ["root", "operator", "customer", "guest"].includes(userType)', { xxxxx: 11111 }), true);
-    // assert.deepStrictEqual(esEval('typeof headerParams["x-user-type"] === "string" && ["root", "operator", "customer", "guest"].includes(headerParams["x-user-type"])', { headerParams: {"x-user-type": '11111' }}), true);
-    // assert.deepStrictEqual(esEval('productsWithPrices.map(p => { p.isAvailable=availableProductIds.includes(p.id); return p; })', { productsWithPrices: [{id:5}],availableProductIds:[3,4,5] }), true);
-    // assert.deepStrictEqual(esEval('productsWithMainStock.map(  p => { p.isAvailable = !!p.isAvailable && (typeof p.children === "undefined" || p.children.filter(child => availableProductIds.includes(child.childId)).length > 0); return p }  )', { productsWithMainStock: [{isAvailable: true,children:[]}] }), [{ isAvailable: true}]);
+    assert.deepStrictEqual(esEval('typeof userType === "string" && ["root", "operator", "customer", "guest"].includes(userType)', { userType: 'operator' }), true);
+    assert.deepStrictEqual(esEval('typeof headerParams["x-user-type"] === "string" && ["root", "operator", "customer", "guest"].includes(headerParams["x-user-type"])', { headerParams: {"x-user-type": 'guest' }}), true);
+    assert.deepStrictEqual(esEval('productsWithPrices.map(p => { p.isAvailable=availableProductIds.includes(p.id); return p; })', { productsWithPrices: [{id:5},{id:6}],availableProductIds:[3,4,5] }), [{id:5,isAvailable:true}, {id:6,isAvailable:false}]);
 
     // @todo implement array.filter
+    // assert.deepStrictEqual(esEval('productsWithMainStock.map(  p => { p.isAvailable = !!p.isAvailable && (typeof p.children === "undefined" || p.children.filter(child => availableProductIds.includes(child.childId)).length > 0); return p }  )', { productsWithMainStock: [{isAvailable: true,children:[]}] }), [{ isAvailable: true}]);
     // assert.deepStrictEqual(esEval('products.map(p=>p.id).concat(products.filter(p=>p.type=="configurable").reduce((acc, p) => { acc = [...acc, ...p.children.map(ch=>ch.childId)]; return acc; }, []))', { products: [{type:'configurable'},{type:'simple'},{type:'configurable',children: [{childId:'ch1'}, {childId:'ch2'}]}] }), {});
     // assert.deepStrictEqual(esEval('$root.prices.filter(p=>p.itemCode === this.id).map(p => { delete p.id; delete p.itemCode; delete p.priceList; return p; })', { $root: {prices:[{price:3,id:4,itemCode:90}, {price:-5},{price:32,itemCode:[]}]} }), {});
     // assert.deepStrictEqual(esEval('[    { message:"Could not create TaxRule",info:$root.taxRuleResult }     ].filter(result => !!result.info.error)', { $root: 11111 }), {});

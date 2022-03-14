@@ -46,4 +46,14 @@ describe('Built-in array features', function () {
     assert.deepStrictEqual(esEval('["A", "B", "C"].reduce((acc, elem, ix) => { acc.push(elem + " at " + ix); return acc; }, [])'), ['A at 0', 'B at 1', 'C at 2']);
     assert.deepStrictEqual(esEval('["A", "B", "C"].reduce((acc, elem, i, array) => { if (i === 1) array.push("?"); acc.push(array.length); return acc; }, [])'), [3, 4, 4]);
   });
+
+  it('includes', function () {
+    assert.deepStrictEqual(esEval('[1, 2, 3, 4, 5].includes(3)'), true);
+    assert.deepStrictEqual(esEval('[1, 2, 3, 4, 5].includes(3, 2)'), true);
+    assert.deepStrictEqual(esEval('[1, 2, 3, 4, 5].includes(3, 3)'), false);
+    assert.deepStrictEqual(esEval('[{ a: 1 }].includes({ a: 1 })'), false);
+    assert.deepStrictEqual(esEval('(() => { const o = { a: 1 }; return [o].includes(o); })()'), true);
+    assert.deepStrictEqual(esEval('[function () {}].includes(function () {})'), false);
+    assert.deepStrictEqual(esEval('(() => { const fn = function () {}; return [fn].includes(fn); })()'), true);
+  });
 });

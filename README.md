@@ -1,7 +1,7 @@
 # es-eval
 
 Evaluate JavaScript expressions safely.
-No more being afraid of what the user enters!
+No more being afraid of what the users enter!
 
 ## Installation
 
@@ -22,20 +22,28 @@ Or a more complex example:
 ```js
 const exp = `(() => {
   const out = [];
+
   const callback = function () {
     out.push('Callback called!');
   };
+
   const main = function (param, cb) {
     out.push('main() called with ' + param);
     cb();
     out.push('main() finished');
   };
+
   main('My value', callback);
+
   return out;
 })()`;
 
 console.log(esEval(exp));
-// Output: ['main() called with My value', 'Callback called!', 'main() finished']
+// Output: [
+//   'main() called with My value',
+//   'Callback called!',
+//   'main() finished'
+// ]
 ```
 
 # Features
@@ -53,16 +61,17 @@ console.log(esEval(exp));
 | Logical operations | |
 | Bitwise operations | |
 | Ternary operator | |
-| Nulish operator | |
+| Nullish operator | |
 | Variables | `const` and `let` declarations. Assignments. |
 
 # Coming soon...
 
 | Status | Feature | Notes |
 |--------|---------|-------|
-| 😓 In Progress | Hangup protection | The execution of any user inputs is protected against intentional or unintentional hangups. Since it is mathematically proven that the [halting problem](https://en.wikipedia.org/wiki/Halting_problem) is undecidable, hence it cannot be automatically computed, this protection is based on a configurable timeout. |
-| :hourglass_flowing_sand: To-Do | [`Array.prototype.includes`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) | Array method to determine is an array includes a value. |
-| :hourglass_flowing_sand: To-Do | [`Array.prototype.filter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) | Array method to filter elements with a user callback. |
+| :white_check_mark: Ready to Release | Hangup protection | The execution of any user inputs is protected against intentional or unintentional hangups. Since it is mathematically proven that the [halting problem](https://en.wikipedia.org/wiki/Halting_problem) is undecidable, hence it cannot be automatically computed, this protection is based on a configurable timeout. |
+| :white_check_mark: Ready to Release | `while` loop | The [`while`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while) statement. |
+| :white_check_mark: Ready to Release | [`Array.prototype.includes`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) | Array method to determine is an array includes a value. |
+| :sweat: In Progress | [`Array.prototype.filter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) | Array method to filter elements with a user callback. |
 | :hourglass_flowing_sand: To-Do | [Spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) (`...`) | Spread syntax for arrays, objects, and parameters. |
 | :hourglass_flowing_sand: To-Do | [`JSON`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON) global object | Functionality to parse and serialize JSON (`JSON.parse(...)` and `JSON.stringify(...)`). |
 | :hourglass_flowing_sand: To-Do | `Object` static methods | Static functionality provided by `Object` class. |
@@ -76,7 +85,6 @@ console.log(esEval(exp));
 | Feature | Notes |
 |---------|-------|
 | Browser support | |
-| `while` loop | |
 | `for of` loop | |
 | `for in` loop | |
 | `for (;;)` loop | |
@@ -99,11 +107,11 @@ console.log(esEval(exp));
 
 :white_check_mark: Easily provide a way to enter and evaluate custom conditions 
 
-:white_check_mark: Embed JS expressions if template engines
+:white_check_mark: Embed JS expressions in template engines
 
 :white_check_mark: Parse custom JS functions once and evaluate them many times
 
-:white_check_mark: Include your context with values, objects and arrays in the expressions
+:white_check_mark: Create expressions with context values, including objects and arrays
 
 
 # What is this **NOT** for
