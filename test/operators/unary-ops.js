@@ -110,6 +110,10 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('typeof (() => {})'), 'function');
       assert.deepStrictEqual(esEval('typeof (x => x)'), 'function');
       assert.deepStrictEqual(esEval('typeof ((x, y) => { const a = 1; return a + x + y; })'), 'function');
+      assert.deepStrictEqual(esEval('typeof (function (x, y) { const a = 1; return a + x + y; })'), 'function');
+
+      // Special cases
+      // @todo: assert.deepStrictEqual(esEval('typeof x'), 'boolean'); // Asking for undefined identifier should not fail
     });
 
     it('can void (void)', function () {

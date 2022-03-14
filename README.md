@@ -20,15 +20,16 @@ console.log(result); // Output: 3
 Or a more complex example:
 
 ```js
+// IIFE example
 const exp = `(() => {
   const out = [];
 
-  const callback = function () {
-    out.push('Callback called!');
+  const callback = () => {
+    out.push('callback() called');
   };
 
   const main = function (param, cb) {
-    out.push('main() called with ' + param);
+    out.push('main() started with param = "' + param + '"');
     cb();
     out.push('main() finished');
   };
@@ -51,11 +52,11 @@ console.log(esEval(exp));
 | Feature | Notes |
 |---------|-------|
 | Primitive values | `number`, `string`, `boolean` and `undefined` values. |
-| Objects | |
-| Arrays | |
-| Arrow function expressions | |
-| Standard function expressions | |
-| Nested expressions | |
+| Objects | `{ key: 'value' }`, `null` |
+| Arrays | `[1, 2, 3]` |
+| Arrow function expressions | `(x, y) => x + y` |
+| Standard function expressions | `function () { return 'value'; }` |
+| Nested expressions | `(a < (b + 1) && a - (a < ([1, 2].map(x => 1 + x)).length))`  |
 | Callbacks | |
 | Mathematical operations | |
 | Logical operations | |
@@ -68,9 +69,9 @@ console.log(esEval(exp));
 
 | Status | Feature | Notes |
 |--------|---------|-------|
-| :white_check_mark: Ready to Release | Hangup protection | The execution of any user inputs is protected against intentional or unintentional hangups. Since it is mathematically proven that the [halting problem](https://en.wikipedia.org/wiki/Halting_problem) is undecidable, hence it cannot be automatically computed, this protection is based on a configurable timeout. |
-| :white_check_mark: Ready to Release | `while` loop | The [`while`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while) statement. |
-| :white_check_mark: Ready to Release | [`Array.prototype.includes`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) | Array method to determine is an array includes a value. |
+| :white_check_mark: To Release | Hangup protection | The execution of any user inputs is protected against intentional or unintentional hangups. Since it is mathematically proven that the [halting problem](https://en.wikipedia.org/wiki/Halting_problem) is undecidable, hence it cannot be automatically computed, this protection is based on a configurable timeout. |
+| :white_check_mark: To Release | `while` loop | The [`while`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while) statement. |
+| :white_check_mark: To Release | [`Array.prototype.includes`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) | Array method to determine is an array includes a value. |
 | :sweat: In Progress | [`Array.prototype.filter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) | Array method to filter elements with a user callback. |
 | :hourglass_flowing_sand: To-Do | [Spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) (`...`) | Spread syntax for arrays, objects, and parameters. |
 | :hourglass_flowing_sand: To-Do | [`JSON`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON) global object | Functionality to parse and serialize JSON (`JSON.parse(...)` and `JSON.stringify(...)`). |
