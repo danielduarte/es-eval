@@ -14,12 +14,20 @@ npm i es-eval
 ## Usage
 
 ```js
+// Simple expression
 const esEval = require('es-eval');
 const result = esEval('1 + 2');
 console.log(result); // Output: 3
 ```
 
-Or a more complex example:
+```js
+// User values
+const esEval = require('es-eval');
+const result = esEval('1 + x', { x: 4 });
+console.log(result); // Output: 5
+```
+
+Or more complex examples:
 
 ```js
 // IIFE example
@@ -49,37 +57,55 @@ console.log(esEval(exp));
 // ]
 ```
 
+```js
+// Hangup protection in infinite loop
+const esEval = require('es-eval');
+
+try {
+  esEval(`(() => {
+    while (true) {}
+  })()`);
+} catch (err) {
+  console.log(err.message); // Output: 'Evaluation timeout'
+}
+```
+
 # Features
 
 | Feature | Notes |
 |---------|-------|
 | Primitive values | `number`, `string`, `boolean` and `undefined` values. |
 | Objects | `{ key: 'value' }`, `null` |
-| Arrays | `[1, 2, 3]` |
+| Arrays | `[1, 2, 3]`, built-in properties and methods: `length`, `push`, `map`, `reduce`, `includes` |
 | Arrow function expressions | `(x, y) => x + y` |
 | Standard function expressions | `function () { return 'value'; }` |
 | Nested expressions | `(a < (b + 1) && a - (a < ([1, 2].map(x => 1 + x)).length))`  |
-| Callbacks | |
-| Mathematical operations | |
-| Logical operations | |
-| Bitwise operations | |
-| Ternary operator | |
-| Nullish operator | |
+| Callbacks | `cb => { cb(); return 1; }` |
+| Mathematical operations | `+`, `-`, `/`, `*`, `%`, `**` |
+| Comparators | `===`, `!==`, `==`, `!=`, `<`, `>`, `<=`, `>=` |
+| Logical operations | `&&`, `&#124;&#124;`, `!` |
+| Bitwise operations | `&`, `&#124;`, `^` |
+| Ternary operator | `... ? ... : ...` |
+| Nullish operator | `??` |
 | Variables | `const` and `let` declarations. Assignments. |
+| Conditional | [`if` / `else`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else) statement. |
+| Loops | [`while`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while) statement. |
+| [`JSON`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON) | `JSON.parse()` and `JSON.stringify()`. |
+| Hangup protection | The execution of any user inputs is protected against intentional or unintentional hangups. Since it is mathematically proven that the [halting problem](https://en.wikipedia.org/wiki/Halting_problem) is undecidable, hence it cannot be automatically computed, this protection is based on a configurable timeout. |
 
 # Coming soon...
 
 | Status | Feature | Notes |
 |--------|---------|-------|
-| :white_check_mark: To Release | Hangup protection | The execution of any user inputs is protected against intentional or unintentional hangups. Since it is mathematically proven that the [halting problem](https://en.wikipedia.org/wiki/Halting_problem) is undecidable, hence it cannot be automatically computed, this protection is based on a configurable timeout. |
-| :white_check_mark: To Release | `while` loop | The [`while`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while) statement. |
-| :white_check_mark: To Release | [`Array.prototype.includes`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes) | Array method to determine is an array includes a value. |
 | :sweat: In Progress | [`Array.prototype.filter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) | Array method to filter elements with a user callback. |
 | :hourglass_flowing_sand: To-Do | [Spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) (`...`) | Spread syntax for arrays, objects, and parameters. |
-| :hourglass_flowing_sand: To-Do | [`JSON`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON) global object | Functionality to parse and serialize JSON (`JSON.parse(...)` and `JSON.stringify(...)`). |
 | :hourglass_flowing_sand: To-Do | `Object` static methods | Static functionality provided by `Object` class. |
 | :hourglass_flowing_sand: To-Do | `String.prototype.trim` | String trim method. |
-| :hourglass_flowing_sand: To-Do | `parseFloat` | Global function to convert a value into a floating point number. |
+| :hourglass_flowing_sand: To-Do | [`parseFloat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat) | Global function to convert a value into a floating point number. |
+| :hourglass_flowing_sand: To-Do | [`parseInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt) | Global function to convert a value into an integer number. |
+| :hourglass_flowing_sand: To-Do | [`Math.random()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random) | JavaScript random number generator. |
+| :hourglass_flowing_sand: To-Do | [`Math.min()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/min) | Minimum calculation. |
+| :hourglass_flowing_sand: To-Do | [`Math.max()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max) | Maximum calculation. |
 
 # Future features
 

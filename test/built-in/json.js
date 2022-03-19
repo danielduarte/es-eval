@@ -1,16 +1,7 @@
 const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
-
-const assertError = (func, message) => {
-  let errorMsg = 'No error';
-  try {
-    func();
-  } catch (err) {
-    errorMsg = err.message;
-  }
-  assert.deepStrictEqual(errorMsg, message);
-};
+const { assertError } = require('../utils');
 
 describe('Built-in JSON object', function () {
 
@@ -135,5 +126,3 @@ describe('Built-in JSON object', function () {
     // esEval('JSON.stringify({x: 2n})'); // TypeError: BigInt value can't be serialized in JSON
   });
 });
-
-// @todo(test) add test for expression: ''+(x=>x)

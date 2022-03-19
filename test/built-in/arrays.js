@@ -1,6 +1,7 @@
 const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
+const { assertError } = require('../utils');
 
 describe('Built-in array features', function () {
 
@@ -21,7 +22,7 @@ describe('Built-in array features', function () {
   });
 
   it('push', function () {
-    // @todo(test) add tests running methods on values like null (ex: 'null.push(5)') or getting props like null.length
+    // Basic behavior
     assert.deepStrictEqual(esEval('[].push(5)'), 1);
     assert.deepStrictEqual(esEval('[undefined].push(5)'), 2);
     assert.deepStrictEqual(esEval('[].push(6, 5, 4, 3, 2, 1)'), 6);

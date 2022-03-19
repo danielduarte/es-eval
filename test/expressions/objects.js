@@ -1,6 +1,7 @@
 const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
+const { assertError } = require('../utils');
 
 describe('Objects', function () {
 
@@ -14,6 +15,7 @@ describe('Objects', function () {
     assert.deepStrictEqual(esEval('{ NaN: 1 }'), { 'NaN': 1 });
     assert.deepStrictEqual(esEval('{ Infinity: 1 }'), { 'Infinity': 1 });
     assert.deepStrictEqual(esEval('{ null: 1 }'), { 'null': 1 });
+    assert.deepStrictEqual(esEval('({}).length'), void 0);
   });
 
   it('object with computed keys', function () {
@@ -45,27 +47,38 @@ describe('Objects', function () {
   });
 
   it('can access a property (literal object, not computed property)', function () {
-    assert.deepStrictEqual(esEval('({ a: 123 }).a' ), 123);
-    assert.deepStrictEqual(esEval('({ undefined: 123 }).undefined' ), 123);
-    assert.deepStrictEqual(esEval('({ NaN: 123 }).NaN' ), 123);
-    assert.deepStrictEqual(esEval('({ Infinity: 123 }).Infinity' ), 123);
-    assert.deepStrictEqual(esEval('({ null: 123 }).null' ), 123);
+    assert.deepStrictEqual(esEval('({ a: 123 }).a'), 123);
+    assert.deepStrictEqual(esEval('({ undefined: 123 }).undefined'), 123);
+    assert.deepStrictEqual(esEval('({ NaN: 123 }).NaN'), 123);
+    assert.deepStrictEqual(esEval('({ Infinity: 123 }).Infinity'), 123);
+    assert.deepStrictEqual(esEval('({ null: 123 }).null'), 123);
   });
 
   it('can access a property (literal object, computed property)', function () {
-    assert.deepStrictEqual(esEval('({ a: 123 })["a"]' ), 123);
-    assert.deepStrictEqual(esEval('({ a12: 123 })["a" + 12]' ), 123);
-    assert.deepStrictEqual(esEval('({ undefined: 123 })[undefined]' ), 123);
-    assert.deepStrictEqual(esEval('({ NaN: 123 })[NaN]' ), 123);
-    assert.deepStrictEqual(esEval('({ Infinity: 123 })[Infinity]' ), 123);
-    assert.deepStrictEqual(esEval('({ null: 123 })[null]' ), 123);
+    assert.deepStrictEqual(esEval('({ a: 123 })["a"]'), 123);
+    assert.deepStrictEqual(esEval('({ a12: 123 })["a" + 12]'), 123);
+    assert.deepStrictEqual(esEval('({ undefined: 123 })[undefined]'), 123);
+    assert.deepStrictEqual(esEval('({ NaN: 123 })[NaN]'), 123);
+    assert.deepStrictEqual(esEval('({ Infinity: 123 })[Infinity]'), 123);
+    assert.deepStrictEqual(esEval('({ null: 123 })[null]'), 123);
   });
 
   it('can access a property (computed object, not computed property)', function () {
-    assert.deepStrictEqual(esEval('(() => ({ a: 123 }))().a' ), 123);
+    assert.deepStrictEqual(esEval('(() => ({ a: 123 }))().a'), 123);
   });
 
   it('can set a property', function () {
-    assert.deepStrictEqual(esEval('({}).prop = 4' ), 4);
+    assert.deepStrictEqual(esEval('({}).prop = 4'), 4);
+  });
+
+  it('error cases', function () {
+    assertError(() => esEval('null.length'), "Cannot read properties of null (reading 'length')");
+    assertError(() => esEval('null.push(1)'), "Cannot read properties of null (reading 'push')");
+    assertError(() => esEval('undefined.length'), "Cannot read properties of undefined (reading 'length')");
+    assertError(() => esEval('undefined.push(1)'), "Cannot read properties of undefined (reading 'push')");
+    assertError(() => esEval('5.length'), 'Identifier directly after number (1:3)');
+    assertError(() => esEval('5.push(1)'), 'Identifier directly after number (1:3)');
+    assertError(() => esEval('5 .push(1)'), 'Function expected but given undefined'); // @todo(feat) support for these kind of calls
+    assertError(() => esEval('({}).push(1)'), 'Function expected but given undefined');
   });
 });

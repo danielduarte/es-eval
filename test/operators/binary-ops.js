@@ -32,6 +32,11 @@ describe('Binary operations', function () {
       assert.deepStrictEqual(esEval('"abc" + ""'), 'abc');
       assert.deepStrictEqual(esEval('"abc" + "123"'), 'abc123');
       assert.deepStrictEqual(esEval('"abc" + "abc"'), 'abcabc');
+      // assert.deepStrictEqual(esEval('"123" + { toString: () => "456" }'), '123456'); // @todo
+      // assert.deepStrictEqual(esEval('"123" + { toString() { return "456"; } }'), '123456'); // @todo(feat) support methods
+      // assert.deepStrictEqual(esEval('"123" + { toString: "4" }'), '123456'); // @todo(test) expect error: Cannot convert object to primitive value
+      // @todo(test) '{ toString: () => "456" } + "789"' ---> expect "789"
+      // @todo(test) '({ toString: () => "456" }) + "789"' ---> expect "456789"
 
       // Numbers with Undefined
       assert.deepStrictEqual(esEval('undefined + 2'), NaN);

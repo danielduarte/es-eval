@@ -1,6 +1,7 @@
 const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
+const { assertError } = require('../utils');
 const { CONTEXT_EMPTY } = require('../../lib/context/defaults');
 
 describe('Variable assignment in lambda expressions (let)', function () {
@@ -61,5 +62,33 @@ describe('Variable assignment in lambda expressions (let)', function () {
     assert.deepStrictEqual(esEval('(() => { let undefined = "custom"; undefined = 7; return undefined })()'), 7);
     assert.deepStrictEqual(esEval('(() => { let NaN = "custom"; NaN = 7; return NaN })()'), 7);
     assert.deepStrictEqual(esEval('(() => { let Infinity = "custom"; Infinity = 7; return Infinity })()'), 7);
+  });
+
+  it('property assignment', function () {
+    // Object property assignment
+    assert.deepStrictEqual(esEval('(() => { let x = {}; x.a = 20; return [x, x.a]; })()'), [{ a: 20 }, 20]);
+    assert.deepStrictEqual(esEval('(() => { let obj = { a: null, b: 100 }; obj.a = 20, obj.b = obj.a + obj.b; obj.c = obj.a; return obj; })()'), {a: 20, b: 120, c: 20});
+
+    // Other types
+    assert.deepStrictEqual(esEval('(() => { let x = 5; x.a = 20; return [x, x.a]; })()'), [5, void 0]);
+    assert.deepStrictEqual(esEval('(() => { let x = NaN; x.a = 20; return [x, x.a]; })()'), [NaN, void 0]);
+    assert.deepStrictEqual(esEval('(() => { let x = Infinity; x.a = 20; return [x, x.a]; })()'), [Infinity, void 0]);
+    assert.deepStrictEqual(esEval('(() => { let x = true; x.a = 20; return [x, x.a]; })()'), [true, void 0]);
+    assert.deepStrictEqual(esEval('(() => { let x = false; x.a = 20; return [x, x.a]; })()'), [false, void 0]);
+    assert.deepStrictEqual(esEval('(() => { let x = "str"; x.a = 20; return [x, x.a]; })()'), ['str', void 0]);
+    assert.deepStrictEqual(esEval('(() => { let x = "str"; x.a = 20; return [x, x.a]; })()'), ['str', void 0]);
+
+    // Array string property
+    const result = esEval('(() => { let x = []; x.a = 20; return [x, x.a]; })()');
+    assert(Array.isArray(result[0]));
+    assert.deepStrictEqual(result[0].length, 0);
+    assert.deepStrictEqual(result[0].a, 20);
+    assert.deepStrictEqual(result[1], 20);
+    // assert.deepStrictEqual(esEval('(() => { let x = y=>y; x.a = 20; return [x, x.a]; })()'), ['str', void 0]); // @todo(feat) support property read/write on functions
+
+    // Error cases
+    assertError(() => esEval('null.a = 1'), "Cannot set properties of null (setting 'a')");
+    assertError(() => esEval('undefined.a = 1'), "Cannot set properties of undefined (setting 'a')");
+    assertError(() => esEval('(() => { let x; x.prop = 20; })()'), "Cannot set properties of undefined (setting 'prop')");
   });
 });
