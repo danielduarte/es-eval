@@ -1,57 +1,57 @@
 const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
-const { Context } = require('../../lib/context');
+const { CONTEXT_DEFAULT, CONTEXT_EMPTY } = require('../../lib/context/defaults');
 
 describe('Arrow functions', function () {
 
   it('lambda empty body', function () {
-    assert.deepStrictEqual(esEval('() => {}').exec([], Context.EMPTY), void 0);
+    assert.deepStrictEqual(esEval('() => {}').exec([], CONTEXT_EMPTY), void 0);
   });
 
   it('lambda literal expressions', function () {
-    assert.deepStrictEqual(esEval('() => 1234').exec([], Context.EMPTY), 1234);
-    assert.deepStrictEqual(esEval('() => undefined').exec([], Context.DEFAULT), void 0);
-    assert.deepStrictEqual(esEval('() => NaN').exec([], Context.DEFAULT), NaN);
-    assert.deepStrictEqual(esEval('() => Infinity').exec([], Context.DEFAULT), Infinity);
-    assert.deepStrictEqual(esEval('() => false').exec([], Context.EMPTY), false);
-    assert.deepStrictEqual(esEval('() => true').exec([], Context.EMPTY), true);
-    assert.deepStrictEqual(esEval('() => ""').exec([], Context.EMPTY), '');
-    assert.deepStrictEqual(esEval('() => "abc"').exec([], Context.EMPTY), 'abc');
-    assert.deepStrictEqual(esEval('() => ({})').exec([], Context.EMPTY), {});
-    assert.deepStrictEqual(esEval('() => []').exec([], Context.EMPTY), []);
-    assert.deepStrictEqual(esEval('() => null').exec([], Context.EMPTY), null);
+    assert.deepStrictEqual(esEval('() => 1234').exec([], CONTEXT_EMPTY), 1234);
+    assert.deepStrictEqual(esEval('() => undefined').exec([], CONTEXT_DEFAULT), void 0);
+    assert.deepStrictEqual(esEval('() => NaN').exec([], CONTEXT_DEFAULT), NaN);
+    assert.deepStrictEqual(esEval('() => Infinity').exec([], CONTEXT_DEFAULT), Infinity);
+    assert.deepStrictEqual(esEval('() => false').exec([], CONTEXT_EMPTY), false);
+    assert.deepStrictEqual(esEval('() => true').exec([], CONTEXT_EMPTY), true);
+    assert.deepStrictEqual(esEval('() => ""').exec([], CONTEXT_EMPTY), '');
+    assert.deepStrictEqual(esEval('() => "abc"').exec([], CONTEXT_EMPTY), 'abc');
+    assert.deepStrictEqual(esEval('() => ({})').exec([], CONTEXT_EMPTY), {});
+    assert.deepStrictEqual(esEval('() => []').exec([], CONTEXT_EMPTY), []);
+    assert.deepStrictEqual(esEval('() => null').exec([], CONTEXT_EMPTY), null);
   });
 
   it('lambdas expressions', function () {
-    assert.deepStrictEqual(esEval('() => 1 + 8').exec([], Context.EMPTY), 9);
-    assert.deepStrictEqual(esEval('() => (true && 0) || 47').exec([], Context.EMPTY), 47);
-    assert.deepStrictEqual(esEval('() => undefined ?? 44').exec([], Context.DEFAULT), 44);
-    assert.deepStrictEqual(esEval('() => 1 ? 2 : 3').exec([], Context.EMPTY), 2);
-    assert.deepStrictEqual(esEval('() => "0" ? "yes" : "no"').exec([], Context.EMPTY), 'yes');
-    assert.deepStrictEqual(esEval('() => ({}) ? "yes" : "no"').exec([], Context.EMPTY), 'yes');
-    assert.deepStrictEqual(esEval('() => [] ? "yes" : "no"').exec([], Context.EMPTY), 'yes');
+    assert.deepStrictEqual(esEval('() => 1 + 8').exec([], CONTEXT_EMPTY), 9);
+    assert.deepStrictEqual(esEval('() => (true && 0) || 47').exec([], CONTEXT_EMPTY), 47);
+    assert.deepStrictEqual(esEval('() => undefined ?? 44').exec([], CONTEXT_DEFAULT), 44);
+    assert.deepStrictEqual(esEval('() => 1 ? 2 : 3').exec([], CONTEXT_EMPTY), 2);
+    assert.deepStrictEqual(esEval('() => "0" ? "yes" : "no"').exec([], CONTEXT_EMPTY), 'yes');
+    assert.deepStrictEqual(esEval('() => ({}) ? "yes" : "no"').exec([], CONTEXT_EMPTY), 'yes');
+    assert.deepStrictEqual(esEval('() => [] ? "yes" : "no"').exec([], CONTEXT_EMPTY), 'yes');
   });
 
   it('lambdas parameters - identity function', function () {
     const identityFn = esEval('x => x');
-    assert.deepStrictEqual(identityFn.exec([12345], Context.EMPTY), 12345);
-    assert.deepStrictEqual(identityFn.exec([NaN], Context.EMPTY), NaN);
-    assert.deepStrictEqual(identityFn.exec([Infinity], Context.EMPTY), Infinity);
-    assert.deepStrictEqual(identityFn.exec([void 0], Context.EMPTY), void 0);
-    assert.deepStrictEqual(identityFn.exec([], Context.EMPTY), void 0);
-    assert.deepStrictEqual(identityFn.exec([false], Context.EMPTY), false);
-    assert.deepStrictEqual(identityFn.exec([true], Context.EMPTY), true);
-    assert.deepStrictEqual(identityFn.exec(['A'], Context.EMPTY), 'A');
-    assert.deepStrictEqual(identityFn.exec([{}], Context.EMPTY), {});
-    assert.deepStrictEqual(identityFn.exec([[]], Context.EMPTY), []);
-    assert.deepStrictEqual(identityFn.exec([null], Context.EMPTY), null);
+    assert.deepStrictEqual(identityFn.exec([12345], CONTEXT_EMPTY), 12345);
+    assert.deepStrictEqual(identityFn.exec([NaN], CONTEXT_EMPTY), NaN);
+    assert.deepStrictEqual(identityFn.exec([Infinity], CONTEXT_EMPTY), Infinity);
+    assert.deepStrictEqual(identityFn.exec([void 0], CONTEXT_EMPTY), void 0);
+    assert.deepStrictEqual(identityFn.exec([], CONTEXT_EMPTY), void 0);
+    assert.deepStrictEqual(identityFn.exec([false], CONTEXT_EMPTY), false);
+    assert.deepStrictEqual(identityFn.exec([true], CONTEXT_EMPTY), true);
+    assert.deepStrictEqual(identityFn.exec(['A'], CONTEXT_EMPTY), 'A');
+    assert.deepStrictEqual(identityFn.exec([{}], CONTEXT_EMPTY), {});
+    assert.deepStrictEqual(identityFn.exec([[]], CONTEXT_EMPTY), []);
+    assert.deepStrictEqual(identityFn.exec([null], CONTEXT_EMPTY), null);
   });
 
   it('lambdas parameters - many params', function () {
     const identityFn = esEval('(w, x, y, z) => w + x + y + z');
-    assert.deepStrictEqual(identityFn.exec([100, 20, 3, '4'], Context.EMPTY), '1234');
-    assert.deepStrictEqual(identityFn.exec([], Context.EMPTY), NaN);
+    assert.deepStrictEqual(identityFn.exec([100, 20, 3, '4'], CONTEXT_EMPTY), '1234');
+    assert.deepStrictEqual(identityFn.exec([], CONTEXT_EMPTY), NaN);
   });
 
   it('lambdas IIFEs', function () {

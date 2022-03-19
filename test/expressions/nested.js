@@ -11,8 +11,7 @@ describe('Nested expressions', function () {
     assert.deepStrictEqual(esEval("('')"), '');
     assert.deepStrictEqual(esEval('("")'), '');
     assert.deepStrictEqual(esEval('("test")'), 'test');
-    // @todo Add support for template strings
-    // assert.deepStrictEqual(esEval("(``)"), '');
+    // assert.deepStrictEqual(esEval("(``)"), ''); // @todo(feat) Add support for template strings
     assert.deepStrictEqual(esEval('({})'), {});
     assert.deepStrictEqual(esEval('([])'), []);
   });
@@ -25,8 +24,7 @@ describe('Nested expressions', function () {
     assert.deepStrictEqual(esEval("((((('')))))"), '');
     assert.deepStrictEqual(esEval('((((("")))))'), '');
     assert.deepStrictEqual(esEval('((((("test")))))'), 'test');
-    // @todo Add support for template strings
-    // assert.deepStrictEqual(esEval("(((((``)))))"), '');
+    // assert.deepStrictEqual(esEval("(((((``)))))"), ''); // @todo(feat) Add support for template strings
     assert.deepStrictEqual(esEval('((((({})))))'), {});
     assert.deepStrictEqual(esEval('((((([])))))'), []);
   });

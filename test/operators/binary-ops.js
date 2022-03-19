@@ -2,8 +2,8 @@ const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
 
-// @todo test NaN, +-Infinity, null and other related values
-// @todo test objects and arrays
+// @todo(test) test NaN, +-Infinity, null and other related values
+// @todo(test) test objects and arrays
 
 describe('Binary operations', function () {
 
@@ -22,7 +22,7 @@ describe('Binary operations', function () {
       assert.deepStrictEqual(esEval('true + true'), 2);
 
       // String
-      // @todo add these tests for the rest of the binary operators
+      // @todo(test) add these tests for the rest of the binary operators
       assert.deepStrictEqual(esEval('"" + ""'), '');
       assert.deepStrictEqual(esEval('"" + "123"'), '123');
       assert.deepStrictEqual(esEval('"" + "abc"'), 'abc');
@@ -44,7 +44,7 @@ describe('Binary operations', function () {
       assert.deepStrictEqual(esEval('1 + true'), 2);
 
       // Number with String
-      // @todo add these tests for the rest of the binary operators
+      // @todo(test) add these tests for the rest of the binary operators
       assert.deepStrictEqual(esEval('"" + 2'), '2');
       assert.deepStrictEqual(esEval('1 + ""'), '1');
       assert.deepStrictEqual(esEval('"123" + 2'), '1232');
@@ -59,14 +59,14 @@ describe('Binary operations', function () {
       assert.deepStrictEqual(esEval('undefined + true'), NaN);
 
       // Undefined with String
-      // @todo add these tests for the rest of the binary operators
+      // @todo(test) add these tests for the rest of the binary operators
       assert.deepStrictEqual(esEval('"" + undefined'), 'undefined');
       assert.deepStrictEqual(esEval('undefined + ""'), 'undefined');
       assert.deepStrictEqual(esEval('"abc" + undefined'), 'abcundefined');
       assert.deepStrictEqual(esEval('undefined + "abc"'), 'undefinedabc');
 
       // Boolean with String
-      // @todo add these tests for the rest of the binary operators
+      // @todo(test) add these tests for the rest of the binary operators
       assert.deepStrictEqual(esEval('false + ""'), 'false');
       assert.deepStrictEqual(esEval('false + "abc"'), 'falseabc');
       assert.deepStrictEqual(esEval('true + ""'), 'true');
@@ -807,4 +807,4 @@ describe('Binary operations', function () {
   });
 });
 
-// @todo support short-circuit expressions: ?., ||=, &&=, ??=
+// @todo(feat) support short-circuit expressions: ?., ||=, &&=, ??=

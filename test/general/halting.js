@@ -2,7 +2,7 @@ const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
 
-const defaultOptions = { timeout: 300 }; // @todo unify default values
+const defaultOptions = { timeout: 300 }; // @todo(refactor) unify default values
 const maxTimeoutDelta = 50; // 50 ms
 
 describe('Halting', function () {

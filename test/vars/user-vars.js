@@ -52,7 +52,7 @@ describe('User variables', function () {
     assert.deepStrictEqual(esEval('Infinity', { 'Infinity': 'my custom Infinity' }), 'my custom Infinity');
   });
 
-  // @todo test user adding invalid Ids
-  // @todo test user adding keywords
-  // @todo test user adding vars named 'null', 'true', 'false'
+  // @todo(test) test user adding invalid Ids
+  // @todo(test) test user adding keywords
+  // @todo(test) test user adding vars named 'null', 'true', 'false'
 });

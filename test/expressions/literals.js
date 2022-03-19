@@ -24,8 +24,7 @@ describe('Literals', function () {
     assert.deepStrictEqual(esEval("''"), '');
     assert.deepStrictEqual(esEval('""'), '');
     assert.deepStrictEqual(esEval('"hello"'), 'hello');
-    // @todo Add support for template strings
-    // assert.deepStrictEqual(esEval('``'), '');
+    // assert.deepStrictEqual(esEval('``'), ''); // @todo(feat) Add support for template strings
   });
 
   it('object', function () {

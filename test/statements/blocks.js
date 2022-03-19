@@ -20,7 +20,7 @@ describe('Statements - blocks', function () {
     assert.deepStrictEqual(esEval('(() => { let x = 1; { x = 2 } return x; })()'), 2);
   });
 
-  // @todo check variables scope inside blocks
+  // @todo(chore) check variables scope inside blocks
   it('nested blocks', function () {
     const exp = `(() => {
       const results = [];

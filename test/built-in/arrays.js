@@ -21,7 +21,7 @@ describe('Built-in array features', function () {
   });
 
   it('push', function () {
-    // @todo add tests running methods on values like null (ex: 'null.push(5)') or getting props like null.length
+    // @todo(test) add tests running methods on values like null (ex: 'null.push(5)') or getting props like null.length
     assert.deepStrictEqual(esEval('[].push(5)'), 1);
     assert.deepStrictEqual(esEval('[undefined].push(5)'), 2);
     assert.deepStrictEqual(esEval('[].push(6, 5, 4, 3, 2, 1)'), 6);
@@ -31,7 +31,7 @@ describe('Built-in array features', function () {
   });
 
   it('map', function () {
-    // @todo add tests for the thisArg parameter when supported (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
+    // @todo(test) add tests for the thisArg parameter when supported (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map)
     assert.deepStrictEqual(esEval('[].map(x => x)'), []);
     assert.deepStrictEqual(esEval('[3, 4, 5].map(x => x)'), [3, 4, 5]);
     assert.deepStrictEqual(esEval('[3, 4, 5].map(x => 2 * x)'), [6, 8, 10]);

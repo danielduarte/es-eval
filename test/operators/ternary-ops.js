@@ -2,8 +2,8 @@ const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
 
-// @todo test NaN, +-Infinity and other related values
-// @todo test objects and arrays
+// @todo(test) test NaN, +-Infinity and other related values
+// @todo(test) test objects and arrays
 
 describe('Ternary operations', function () {
 

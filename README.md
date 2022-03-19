@@ -3,6 +3,8 @@
 Evaluate JavaScript expressions safely.
 No more being afraid of what the users enter!
 
+:game_die: [Playground](https://danielduarte.github.io/es-eval-playground/) ([last release](https://www.npmjs.com/package/es-eval))
+
 ## Installation
 
 ```bash
