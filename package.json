@@ -1,6 +1,6 @@
 {
   "name": "es-eval",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Run JavaScript safely",
   "main": "index.js",
   "scripts": {

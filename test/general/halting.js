@@ -159,4 +159,28 @@ describe('Halting', function () {
     const timeout = defaultOptions.timeout;
     assert(execTime <= timeout + maxTimeoutDelta);
   });
+
+  it('stop hangup evaluation - calling function does not restart the timeout', function () {
+    let errorMsg = 'No error';
+    const t0 = Date.now();
+    try {
+      esEval(`
+        (() => {
+          const f = () => 1;
+          while (true) {
+            f();
+          }
+        })()
+      `);
+    } catch (err) {
+      errorMsg = err.message;
+    }
+    const t = Date.now();
+
+    assert.deepStrictEqual(errorMsg, 'Evaluation timeout');
+
+    const execTime = t - t0;
+    const timeout = defaultOptions.timeout;
+    assert(execTime <= timeout + maxTimeoutDelta);
+  });
 });
