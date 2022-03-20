@@ -3,7 +3,7 @@ const assert = require('assert');
 const esEval = require('../..');
 const { assertError } = require('../utils');
 
-describe('Built-in array features', function () {
+describe('Arrays', function () {
 
   it('indexed access', function () {
     assert.deepStrictEqual(esEval('["a", "b"][1]'), 'b');
@@ -56,5 +56,23 @@ describe('Built-in array features', function () {
     assert.deepStrictEqual(esEval('(() => { const o = { a: 1 }; return [o].includes(o); })()'), true);
     assert.deepStrictEqual(esEval('[function () {}].includes(function () {})'), false);
     assert.deepStrictEqual(esEval('(() => { const fn = function () {}; return [fn].includes(fn); })()'), true);
+  });
+
+  it('filter', function () {
+    // Simple cases
+    assert.deepStrictEqual(esEval('[1, 2, 3, 4, 5].filter(() => true)'), [1, 2, 3, 4, 5]);
+    assert.deepStrictEqual(esEval('[1, 2, 3, 4, 5].filter(() => false)'), []);
+    assert.deepStrictEqual(esEval('[1, 2, 3, 4, 5].filter(x => x > 3)'), [4, 5]);
+
+    // Use of 'this' - non-object 'this'
+    assert.deepStrictEqual(esEval('[1, 2, 3, undefined, undefined, 4, undefined, null, "a", null].filter(function (elem) { return elem === this; })'), [void 0, void 0, void 0]); // This case may differ from browser behavior because of the default 'this'
+    assert.deepStrictEqual(esEval('[1, 2, 3, undefined, undefined, 4, undefined, null, "a", null].filter(function (elem) { return elem === this; }, undefined)'), [void 0, void 0, void 0]); // This case may differ from browser behavior because of the default 'this'
+    assert.deepStrictEqual(esEval('[1, 2, 3, undefined, undefined, 4, undefined, null, "a", null].filter(function (elem) { return elem === this; }, null)'), [null, null]); // This case may differ from browser behavior because of the default 'this'
+
+    // Use of 'this' - object 'this'
+    assert.deepStrictEqual(esEval('[1, 2, 3, undefined, undefined, 4, undefined, null, "a", null].filter(function (elem) { return elem === this.val; }, { val: undefined })'), [void 0, void 0, void 0]);
+    assert.deepStrictEqual(esEval('[1, 2, 3, undefined, undefined, 4, undefined, null, "a", null].filter(function (elem) { return elem === this.val; }, { val: null })'), [null, null]);
+    assert.deepStrictEqual(esEval('[1, 2, 3, undefined, undefined, 4, undefined, null, "a", null].filter(function (elem) { return elem === this.val; }, { val: 2 })'), [2]);
+    assert.deepStrictEqual(esEval('[1, 2, 3, undefined, undefined, 4, undefined, null, "a", null].filter(function (elem) { return elem === this.val; }, { val: "a" })'), ['a']);
   });
 });

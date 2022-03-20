@@ -3,7 +3,6 @@ const assert = require('assert');
 const esEval = require('../..');
 const { CONTEXT_DEFAULT, CONTEXT_EMPTY } = require('../../lib/context/defaults');
 
-
 // @todo(feat) add support for function declarations
 // @todo(test) add recursion test
 

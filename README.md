@@ -16,6 +16,7 @@ npm i es-eval
 ```js
 // Simple expression
 const esEval = require('es-eval');
+
 const result = esEval('1 + 2');
 console.log(result); // Output: 3
 ```
@@ -23,6 +24,7 @@ console.log(result); // Output: 3
 ```js
 // User values
 const esEval = require('es-eval');
+
 const result = esEval('1 + x', { x: 4 });
 console.log(result); // Output: 5
 ```
@@ -31,6 +33,8 @@ Or more complex examples:
 
 ```js
 // IIFE example
+const esEval = require('es-eval');
+
 const exp = `(() => {
   const out = [];
 
@@ -76,15 +80,15 @@ try {
 |---------|-------|
 | Primitive values | `number`, `string`, `boolean` and `undefined` values. |
 | Objects | `{ key: 'value' }`, `null` |
-| Arrays | `[1, 2, 3]`, built-in properties and methods: `length`, `push`, `map`, `reduce`, `includes` |
+| Arrays | `[1, 2, 3]`, built-in properties and methods: `length`, `push`, `map`, `filter`, `reduce`, `includes` |
 | Arrow function expressions | `(x, y) => x + y` |
 | Standard function expressions | `function () { return 'value'; }` |
 | Nested expressions | `(a < (b + 1) && a - (a < ([1, 2].map(x => 1 + x)).length))`  |
 | Callbacks | `cb => { cb(); return 1; }` |
 | Mathematical operations | `+`, `-`, `/`, `*`, `%`, `**` |
 | Comparators | `===`, `!==`, `==`, `!=`, `<`, `>`, `<=`, `>=` |
-| Logical operations | `&&`, `&#124;&#124;`, `!` |
-| Bitwise operations | `&`, `&#124;`, `^` |
+| Logical operations | `&&`, <code>&#124;&#124;</code>, `!` |
+| Bitwise operations | `&`, <code>&#124;</code>, `^` |
 | Ternary operator | `... ? ... : ...` |
 | Nullish operator | `??` |
 | Variables | `const` and `let` declarations. Assignments. |
@@ -97,7 +101,6 @@ try {
 
 | Status | Feature | Notes |
 |--------|---------|-------|
-| :sweat: In Progress | [`Array.prototype.filter`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) | Array method to filter elements with a user callback. |
 | :hourglass_flowing_sand: To-Do | [Spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) (`...`) | Spread syntax for arrays, objects, and parameters. |
 | :hourglass_flowing_sand: To-Do | `Object` static methods | Static functionality provided by `Object` class. |
 | :hourglass_flowing_sand: To-Do | `String.prototype.trim` | String trim method. |
@@ -106,6 +109,7 @@ try {
 | :hourglass_flowing_sand: To-Do | [`Math.random()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random) | JavaScript random number generator. |
 | :hourglass_flowing_sand: To-Do | [`Math.min()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/min) | Minimum calculation. |
 | :hourglass_flowing_sand: To-Do | [`Math.max()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max) | Maximum calculation. |
+| :hourglass_flowing_sand: To-Do | [`Math.floor()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor) | Returns the largest integer less than or equal to a given number. |
 
 # Future features
 
