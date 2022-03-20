@@ -132,7 +132,7 @@ try {
 - No access to global objects.
 - All user code is parsed to an AST and analyzed step by step, representing the code statements and functions in own components. No native `function`s are created with the user input.
 - All access to global objects is emulated and there's no real access to natives.
-- All standard ECMAScript features are implemented and not delegated to the underlying engine.
+- Standard ECMAScript features are implemented and not delegated to the underlying engine.
 
 # What is this for
 
