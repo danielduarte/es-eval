@@ -1,6 +1,8 @@
 const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
+const { CONTEXT_DEFAULT, CONTEXT_EMPTY } = require('../../lib/context/defaults');
+const { assertError } = require('../utils');
 
 describe('Literals', function () {
 
@@ -9,10 +11,17 @@ describe('Literals', function () {
     assert.deepStrictEqual(esEval('1234'), 1234);
     assert.deepStrictEqual(esEval('Infinity'), Infinity);
     assert.deepStrictEqual(esEval('NaN'), NaN);
+
+    // Error cases
+    assertError(() => esEval('() => { const c = NaN; }').exec([], CONTEXT_EMPTY), "Identifier not defined: 'NaN'");
+    assertError(() => esEval('() => { const c = Infinity; }').exec([], CONTEXT_EMPTY), "Identifier not defined: 'Infinity'");
   });
 
   it('undefined', function () {
     assert.deepStrictEqual(esEval('undefined'), void 0);
+
+    // Error cases
+    assertError(() => esEval('() => { const c = undefined; }').exec([], CONTEXT_EMPTY), "Identifier not defined: 'undefined'");
   });
 
   it('boolean', function () {

@@ -101,7 +101,7 @@ try {
 
 | Status | Feature | Notes |
 |--------|---------|-------|
-| :hourglass_flowing_sand: To-Do | [Spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) (`...`) | Spread syntax for arrays, objects, and parameters. |
+| :sweat: In Progress | [Spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) (`...`) | Spread syntax for arrays, objects, and parameters. |
 | :hourglass_flowing_sand: To-Do | `Object` static methods | Static functionality provided by `Object` class. |
 | :hourglass_flowing_sand: To-Do | `String.prototype.trim` | String trim method. |
 | :hourglass_flowing_sand: To-Do | [`parseFloat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat) | Global function to convert a value into a floating point number. |
