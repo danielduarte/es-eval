@@ -20,6 +20,7 @@ require('./vars/let');
 require('./vars/assign');
 require('./vars/user-vars');
 require('./built-in/arrays');
+require('./built-in/object');
 require('./general/this');
 require('./statements/blocks');
 require('./statements/if');

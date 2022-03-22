@@ -5,12 +5,11 @@ const { assertError } = require('../utils');
 
 describe('Built-in JSON object', function () {
 
-  // @todo(feat) improve JSON support
-  // it('JSON object exists and is valid', function () {
-  //   assert.deepStrictEqual(esEval('typeof JSON'), 'object'); // @todo(feat) support references to global JSON
-  //   assert.deepStrictEqual(esEval('typeof JSON.parse'), 'function'); // @todo(feat) support typeof on static built-in methods
-  //   assert.deepStrictEqual(esEval('typeof JSON.stringify'), 'function'); // @todo(feat) support typeof on static built-in methods
-  // });
+  it('JSON object exists and is valid', function () {
+    assert.deepStrictEqual(esEval('typeof JSON'), 'object');
+    assert.deepStrictEqual(esEval('typeof JSON.parse'), 'function');
+    assert.deepStrictEqual(esEval('typeof JSON.stringify'), 'function');
+  });
 
   // @todo(feat) improve JSON support
   // it('JSON object can be overridden', function () {

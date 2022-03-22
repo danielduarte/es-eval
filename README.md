@@ -3,7 +3,7 @@
 Evaluate JavaScript expressions safely.
 No more being afraid of what the users enter!
 
-:game_die: [Playground](https://danielduarte.github.io/es-eval-playground/) ([last release](https://www.npmjs.com/package/es-eval))
+:game_die: [Playground](https://danielduarte.github.io/es-eval-playground/) (pre-release version)
 
 ## Installation
 
@@ -79,7 +79,7 @@ try {
 | Feature | Notes |
 |---------|-------|
 | Primitive values | `number`, `string`, `boolean` and `undefined` values. |
-| Objects | `{ key: 'value' }`, `null` |
+| Objects | `{ key: 'value' }`, `null`, built-in static methods: `entries`, `keys`, `values` |
 | Arrays | `[1, 2, 3]`, built-in properties and methods: `length`, `push`, `map`, `filter`, `reduce`, `includes` |
 | Arrow function expressions | `(x, y) => x + y` |
 | Standard function expressions | `function () { return 'value'; }` |
@@ -122,6 +122,7 @@ try {
 | `for in` loop | |
 | `for (;;)` loop | |
 | `do ... while` loop | |
+| Destructuring | |
 | *And a lot more!...* | |
 
 # How it works?

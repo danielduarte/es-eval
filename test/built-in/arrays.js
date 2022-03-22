@@ -1,9 +1,8 @@
 const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
-const { assertError } = require('../utils');
 
-describe('Arrays', function () {
+describe('Array built-in properties and methods', function () {
 
   it('indexed access', function () {
     assert.deepStrictEqual(esEval('["a", "b"][1]'), 'b');
