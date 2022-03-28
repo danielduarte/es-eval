@@ -78,9 +78,10 @@ try {
 
 | Feature | Notes |
 |---------|-------|
+| Hangup protection | The execution of any user inputs is protected against intentional or unintentional hangups. Since it is mathematically proven that the [halting problem](https://en.wikipedia.org/wiki/Halting_problem) is undecidable, hence it cannot be automatically computed, this protection is based on a configurable timeout. |
 | Primitive values | `number`, `string`, `boolean` and `undefined` values. |
 | Objects | `{ key: 'value' }`, `null`, built-in static methods: `entries`, `keys`, `values` |
-| Arrays | `[1, 2, 3]`, built-in properties and methods: `length`, `push`, `map`, `filter`, `reduce`, `includes` |
+| Arrays | `[1, 2, 3]`, built-in properties and methods: `length`, `push`, `pop`, `shift`, `ushift`, `slice`, `splice`, `forEach`, `map`, `filter`, `reduce`, `includes` |
 | Arrow function expressions | `(x, y) => x + y` |
 | Standard function expressions | `function () { return 'value'; }` |
 | Nested expressions | `(a < (b + 1) && a - (a < ([1, 2].map(x => 1 + x)).length))`  |
@@ -95,15 +96,12 @@ try {
 | Conditional | [`if` / `else`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else) statement. |
 | Loops | [`while`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while) statement. |
 | [`JSON`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON) | `JSON.parse()` and `JSON.stringify()`. |
-| Hangup protection | The execution of any user inputs is protected against intentional or unintentional hangups. Since it is mathematically proven that the [halting problem](https://en.wikipedia.org/wiki/Halting_problem) is undecidable, hence it cannot be automatically computed, this protection is based on a configurable timeout. |
-
+| [Spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) (`...`) | Spread syntax for arrays, objects, and parameters. |
 # Coming soon...
 
 | Status | Feature | Notes |
 |--------|---------|-------|
-| :sweat: In Progress | [Spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) (`...`) | Spread syntax for arrays, objects, and parameters. |
-| :hourglass_flowing_sand: To-Do | `Object` static methods | Static functionality provided by `Object` class. |
-| :hourglass_flowing_sand: To-Do | `String.prototype.trim` | String trim method. |
+| :sweat: In Progress | `String.prototype.trim`, `String.prototype.trimStart`, `String.prototype.trimEnd` | String trim methods. |
 | :hourglass_flowing_sand: To-Do | [`parseFloat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat) | Global function to convert a value into a floating point number. |
 | :hourglass_flowing_sand: To-Do | [`parseInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt) | Global function to convert a value into an integer number. |
 | :hourglass_flowing_sand: To-Do | [`Math.random()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random) | JavaScript random number generator. |
