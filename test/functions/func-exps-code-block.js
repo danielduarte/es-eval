@@ -1,25 +1,24 @@
 const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
-const { CONTEXT_EMPTY } = require('../../lib/context/defaults');
 
 describe('Arrow functions - return statement', function () {
 
   it('function - empty statement', function () {
-    assert.deepStrictEqual(esEval('function () { ; }').exec([], CONTEXT_EMPTY), void 0);
-    assert.deepStrictEqual(esEval('function () { ;;;; }').exec([], CONTEXT_EMPTY), void 0);
+    assert.deepStrictEqual(esEval('function () { ; }').exec([]), void 0);
+    assert.deepStrictEqual(esEval('function () { ;;;; }').exec([]), void 0);
   });
 
   it('function - empty return only body', function () {
-    assert.deepStrictEqual(esEval('function () { return; }').exec([], CONTEXT_EMPTY), void 0);
+    assert.deepStrictEqual(esEval('function () { return; }').exec([]), void 0);
   });
 
   it('function - multiple return', function () {
-    assert.deepStrictEqual(esEval('function () { return 11; return 22; return 33; }').exec([], CONTEXT_EMPTY), 11);
+    assert.deepStrictEqual(esEval('function () { return 11; return 22; return 33; }').exec([]), 11);
   });
 
   it('function - no return returns undefined', function () {
-    assert.deepStrictEqual(esEval('function () { 5 }').exec([], CONTEXT_EMPTY), void 0);
+    assert.deepStrictEqual(esEval('function () { 5 }').exec([]), void 0);
   });
 
   it('function - passing a callback parameter', function () {

@@ -29,3 +29,4 @@ require('./general/random-expressions');
 require('./general/halting');
 require('./built-in/json');
 require('./expressions/spread');
+require('./vars/closures');

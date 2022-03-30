@@ -11,17 +11,20 @@ describe('Literals', function () {
     assert.deepStrictEqual(esEval('1234'), 1234);
     assert.deepStrictEqual(esEval('Infinity'), Infinity);
     assert.deepStrictEqual(esEval('NaN'), NaN);
+    assert.deepStrictEqual(esEval('Infinity', {}, { context: CONTEXT_DEFAULT }), Infinity);
+    assert.deepStrictEqual(esEval('NaN', {}, { context: CONTEXT_DEFAULT }), NaN);
 
     // Error cases
-    assertError(() => esEval('() => { const c = NaN; }').exec([], CONTEXT_EMPTY), "Identifier not defined: 'NaN'");
-    assertError(() => esEval('() => { const c = Infinity; }').exec([], CONTEXT_EMPTY), "Identifier not defined: 'Infinity'");
+    assertError(() => esEval('() => { const c = NaN; }', {}, { context: CONTEXT_EMPTY }).exec([]), "Identifier not defined: 'NaN'");
+    assertError(() => esEval('() => { const c = Infinity; }', {}, { context: CONTEXT_EMPTY }).exec([]), "Identifier not defined: 'Infinity'");
   });
 
   it('undefined', function () {
     assert.deepStrictEqual(esEval('undefined'), void 0);
+    assert.deepStrictEqual(esEval('undefined', {}, { context: CONTEXT_DEFAULT }), void 0);
 
     // Error cases
-    assertError(() => esEval('() => { const c = undefined; }').exec([], CONTEXT_EMPTY), "Identifier not defined: 'undefined'");
+    assertError(() => esEval('() => { const c = undefined; }', {}, { context: CONTEXT_EMPTY }).exec([]), "Identifier not defined: 'undefined'");
   });
 
   it('boolean', function () {

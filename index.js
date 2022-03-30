@@ -11,7 +11,7 @@ installImplClasses({ AbstractFunction, GenericFunction });
 installBuiltIns(builtIns, builtInsImpls);
 
 const evalAst = (ast, vars, options, runState) => {
-  let context = CONTEXT_DEFAULT;
+  let context = options.context || CONTEXT_DEFAULT;
   const userVars = Object.entries(vars);
   if (userVars.length > 0) {
     context = new Context(userVars.reduce((acc, varEntry) => {
@@ -19,6 +19,8 @@ const evalAst = (ast, vars, options, runState) => {
       return acc;
     }, {}), context);
   }
+
+
   return evalProgram(ast, context, options, runState);
 };
 

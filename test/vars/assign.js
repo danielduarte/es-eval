@@ -2,31 +2,30 @@ const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
 const { assertError } = require('../utils');
-const { CONTEXT_EMPTY } = require('../../lib/context/defaults');
 
 describe('Variable assignment in lambda expressions (let)', function () {
 
   it('lambda with assignment', function () {
-    assert.deepStrictEqual(esEval('() => { let x; x = 5; return x; }').exec([], CONTEXT_EMPTY), 5);
-    assert.deepStrictEqual(esEval('() => { let x = 5; x = 6; return x; }').exec([], CONTEXT_EMPTY), 6);
-    assert.deepStrictEqual(esEval('() => { let x; x = 5; x = 8; return x; }').exec([], CONTEXT_EMPTY), 8);
-    assert.deepStrictEqual(esEval('() => { let x; x = 6 + 1; return x; }').exec([], CONTEXT_EMPTY), 7);
-    assert.deepStrictEqual(esEval('() => { let x, y; x = 5; y = 4; return x + y; }').exec([], CONTEXT_EMPTY), 9);
-    assert.deepStrictEqual(esEval('() => { let x, y; x = y = 7; return x + y; }').exec([], CONTEXT_EMPTY), 14);
-    assert.deepStrictEqual(esEval('() => { let x = 1, y = 2; x = y = 7; return x + y; }').exec([], CONTEXT_EMPTY), 14);
-    assert.deepStrictEqual(esEval('() => { let x; return x = 5; }').exec([], CONTEXT_EMPTY), 5);
-    assert.deepStrictEqual(esEval('() => { let x; return x = 6 + 1; }').exec([], CONTEXT_EMPTY), 7);
-    assert.deepStrictEqual(esEval('() => { let x, y; return x = y = 7; }').exec([], CONTEXT_EMPTY), 7);
-    assert.deepStrictEqual(esEval('() => { let x = 4, y = 8; return x = y; }').exec([], CONTEXT_EMPTY), 8);
-    assert.deepStrictEqual(esEval('x => x = 2').exec([], CONTEXT_EMPTY), 2);
-    assert.deepStrictEqual(esEval('x => x = 2').exec([3], CONTEXT_EMPTY), 2);
-    assert.deepStrictEqual(esEval('x => x = "a"').exec([], CONTEXT_EMPTY), 'a');
+    assert.deepStrictEqual(esEval('() => { let x; x = 5; return x; }').exec([]), 5);
+    assert.deepStrictEqual(esEval('() => { let x = 5; x = 6; return x; }').exec([]), 6);
+    assert.deepStrictEqual(esEval('() => { let x; x = 5; x = 8; return x; }').exec([]), 8);
+    assert.deepStrictEqual(esEval('() => { let x; x = 6 + 1; return x; }').exec([]), 7);
+    assert.deepStrictEqual(esEval('() => { let x, y; x = 5; y = 4; return x + y; }').exec([]), 9);
+    assert.deepStrictEqual(esEval('() => { let x, y; x = y = 7; return x + y; }').exec([]), 14);
+    assert.deepStrictEqual(esEval('() => { let x = 1, y = 2; x = y = 7; return x + y; }').exec([]), 14);
+    assert.deepStrictEqual(esEval('() => { let x; return x = 5; }').exec([]), 5);
+    assert.deepStrictEqual(esEval('() => { let x; return x = 6 + 1; }').exec([]), 7);
+    assert.deepStrictEqual(esEval('() => { let x, y; return x = y = 7; }').exec([]), 7);
+    assert.deepStrictEqual(esEval('() => { let x = 4, y = 8; return x = y; }').exec([]), 8);
+    assert.deepStrictEqual(esEval('x => x = 2').exec([]), 2);
+    assert.deepStrictEqual(esEval('x => x = 2').exec([3]), 2);
+    assert.deepStrictEqual(esEval('x => x = "a"').exec([]), 'a');
   });
 
   it('lambda with re-assigned constant', function () {
     let errMessage = 'NO ERROR';
     try {
-      esEval('() => { const c = 1; c = 2; }').exec([], CONTEXT_EMPTY);
+      esEval('() => { const c = 1; c = 2; }').exec([]);
     } catch (err) {
       errMessage = err.message;
     }
