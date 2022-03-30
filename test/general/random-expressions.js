@@ -52,32 +52,31 @@ describe('Random cases', function () {
     assert.deepStrictEqual(esEval('typeof headerParams["x-user-type"] === "string" && ["root", "operator", "customer", "guest"].includes(headerParams["x-user-type"])', { headerParams: {"x-user-type": 'guest' }}), true);
     assert.deepStrictEqual(esEval('productsWithPrices.map(p => { p.isAvailable=availableProductIds.includes(p.id); return p; })', { productsWithPrices: [{id:5},{id:6}],availableProductIds:[3,4,5] }), [{id:5,isAvailable:true}, {id:6,isAvailable:false}]);
     assert.deepStrictEqual(esEval('productsWithMainStock.map(  p => { p.isAvailable = !!p.isAvailable && (typeof p.children === "undefined" || p.children.filter(child => availableProductIds.includes(child.childId)).length > 0); return p }  )', { productsWithMainStock: [{isAvailable: true,children:[{childId: 5}]}], availableProductIds: [5] }), [{isAvailable: true,children:[{childId: 5}]}]);
+    assert.deepStrictEqual(esEval('imageAssets.reduce((acc, elem) => { return [...acc, ...elem.productImage]; }, []).reduce((acc, img) => { img.url=baseUrlBody.value+"/"+img.id; acc[img.id]=img; return acc; }, {})', { imageAssets: [{productImage:[{id:'i1'}]}, {productImage:[{id:'i2'}]}], baseUrlBody: {value: 'http://chau.com'} }), { i1: { id: 'i1', url: 'http://chau.com/i1' }, i2: { id: 'i2', url: 'http://chau.com/i2' }});
+    assert.deepStrictEqual(esEval('uncheckedPriceList.error ? uncheckedPriceList.error : {error:"Could not find the price list ("+JSON.stringify(priceListFilter)+")"}', { uncheckedPriceList: 11111, priceListFilter: { limit: 10 } }), { error: 'Could not find the price list ({"limit":10})' });
 
-    // @todo(feat) implement spread
-    // assert.deepStrictEqual(esEval('products.map(p=>p.id).concat(products.filter(p=>p.type=="configurable").reduce((acc, p) => { acc = [...acc, ...p.children.map(ch=>ch.childId)]; return acc; }, []))', { products: [{type:'configurable'},{type:'simple'},{type:'configurable',children: [{childId:'ch1'}, {childId:'ch2'}]}] }), {});
-    // assert.deepStrictEqual(esEval('[...new Set((request_body.items || []).map(item => item.productId))]', { xxxxx: 11111 }), {});
-    // assert.deepStrictEqual(esEval('body.map(asset => ({ ...asset, url: `${baseUrlBody.value}/${asset.id}`}))', { body: [{},{}] }), {});
-    // assert.deepStrictEqual(esEval('imageAssets.reduce((acc, elem) => { return [...acc, ...elem.productImage]; }, []).reduce((acc, img) => { img.url=baseUrlBody.value+"/"+img.id; acc[img.id]=img; return acc; }, {})', { imageAssets: [{productImage:{id:'i1'}}, {productImage:{id:'i2'}}], baseUrlBody: {value: 'http://chau.com'} }), 1111);
-
-    // @todo(feat) implement JSON
-    // assert.deepStrictEqual(esEval('uncheckedPriceList.error ? uncheckedPriceList.error : {error:"Could not find the price list ("+JSON.stringify(priceListFilter)+")"}', { uncheckedPriceList: 11111 }), {});
-    // assert.deepStrictEqual(esEval('{...$root.queryParams, filter: JSON.parse(($root.queryParams||{}).filter || '{}')}', { xxxxx: 11111 }), {});
-
-    // @todo(fix) fix expression
+    // @todo(fix) delete
     // assert.deepStrictEqual(esEval('delete stockItem.productId && stockItem', { stockItem: 11111 }), 11111);
     // assert.deepStrictEqual(esEval('prices.map(p => { delete p.id; delete p.itemCode; delete p.priceList; return p; })', { prices: [{price:3,id:4,itemCode:90}, {price:-5},{price:32,itemCode:[]}] } ), [{price:3}, {price:-5},{price:32}]);
+    // assert.deepStrictEqual(esEval('$root.prices.filter(p=>p.itemCode === id).map(p => { delete p.id; delete p.itemCode; delete p.priceList; return p; })', { id: 90, $root: {prices:[{sku: 'sk',price:3,id:4,itemCode:90}, {price:-5},{price:32,itemCode:[]}]} }), [{price: 3, sku: 'sk'}]);
 
     // @todo(feat) implement Object
     // assert.deepStrictEqual(esEval('Object.entries(sanitizationMap).reduce((acc, [sanitizedField, rawField]) => { acc[sanitizedField] = entityData[rawField]; return acc; }, {})', { xxxxx: 11111 }), {});
     // assert.deepStrictEqual(esEval('Object.keys(entityData).map(field => [ field, field.toLowerCase().replace(/[^a-z0-9]/g, "") ]).reduce((acc, item) => { acc[item[1]]=item[0]; return acc; }, {})', { xxxxx: 11111 }), {});
-
-    // @todo(fix) delete
-    // assert.deepStrictEqual(esEval('$root.prices.filter(p=>p.itemCode === id).map(p => { delete p.id; delete p.itemCode; delete p.priceList; return p; })', { id: 90, $root: {prices:[{sku: 'sk',price:3,id:4,itemCode:90}, {price:-5},{price:32,itemCode:[]}]} }), [{price: 3, sku: 'sk'}]);
 
     // @todo(feat) implement string.trim
     // assert.deepStrictEqual(esEval('sanitizedData.ruleenabled && sanitizedData.ruleenabled.trim().toLowerCase() === "yes" ? true : (sanitizedData.ruleenabled && sanitizedData.ruleenabled.trim().toLowerCase() === "no" ? false : true)', { sanitizedData: { ruleenabled: "s"} }), {});
 
     // @todo(feat) parseFloat
     // assert.deepStrictEqual(esEval('parseFloat(sanitizedData.taxrate)', { xxxxx: 11111 }), {});
+
+    // @todo(feat) implement array concat
+    // assert.deepStrictEqual(esEval('products.map(p=>p.id).concat(products.filter(p=>p.type=="configurable").reduce((acc, p) => { acc = [...acc, ...(p.children??[]).map(ch=>ch.childId)]; return acc; }, []))', { products: [{id:1,type:'configurable'},{id:2,type:'simple'},{id:3,type:'configurable',children: [{childId:'ch1'}, {childId:'ch2'}]}] }), {});
+
+    // @todo(feat) implement 'new'
+    // assert.deepStrictEqual(esEval('[...new Set((request_body.items || []).map(item => item.productId))]', { xxxxx: 11111 }), {});
+
+    // @todo(feat) implement string templates
+    // assert.deepStrictEqual(esEval('body.map(asset => ({ ...asset, url: `${baseUrlBody.value}/${asset.id}`}))', { body: [{},{}] }), {});
   });
 });
