@@ -144,6 +144,7 @@ describe('Unary operations', function () {
     });
 
     it('can delete (delete)', function () {
+      // Delete direct values
       assert.deepStrictEqual(esEval('delete 8'), true);
       assert.deepStrictEqual(esEval('delete NaN'), false);
       assert.deepStrictEqual(esEval('delete Infinity'), false);
@@ -161,6 +162,20 @@ describe('Unary operations', function () {
       assert.deepStrictEqual(esEval('delete (() => {})'), true);
       assert.deepStrictEqual(esEval('delete (x => x)'), true);
       assert.deepStrictEqual(esEval('delete ((x, y) => { const a = 1; return a + x + y; })'), true);
+
+      // Delete object properties
+      assert.deepStrictEqual(esEval('(() => { const obj = { a: 1, b: 2 }; delete obj.a; return obj; })()'), { b: 2 });
+      assert.deepStrictEqual(esEval('(() => { const obj = { a: 1, b: 2 }; delete obj["a"]; return obj; })()'), { b: 2 });
+      assert.deepStrictEqual(esEval('(() => { const obj = { a: 1, 10: 2 }; delete obj[2*5]; return obj; })()'), { a: 1 });
+
+      // Delete array positions
+      assert.deepStrictEqual(esEval('(() => { const arr = [6, 7, 8]; const result = delete arr[0]; return [arr, arr.length, result]; })()'), [(() => { const arr = [6, 7, 8]; delete arr[0]; return arr; })(), 3, true]); // Delete first element
+      assert.deepStrictEqual(esEval('(() => { const arr = [6, 7, 8]; const result = delete arr[1]; return [arr, arr.length, result]; })()'), [(() => { const arr = [6, 7, 8]; delete arr[1]; return arr; })(), 3, true]); // Delete element in the middle
+      assert.deepStrictEqual(esEval('(() => { const arr = [6, 7, 8]; const result = delete arr[2]; return [arr, arr.length, result]; })()'), [(() => { const arr = [6, 7, 8]; delete arr[2]; return arr; })(), 3, true]); // Delete last element
+      assert.deepStrictEqual(esEval('(() => { const arr = [6, 7, 8]; const result = delete arr[1+1]; return [arr, arr.length, result]; })()'), [(() => { const arr = [6, 7, 8]; delete arr[2]; return arr; })(), 3, true]);
+      assert.deepStrictEqual(esEval('(() => { const arr = [6, 7, 8]; const result = delete arr[1000]; return [arr, arr.length, result]; })()'), [[6, 7, 8], 3, true]); // Try to delete not existing element
+      assert.deepStrictEqual(esEval('(() => { const arr = [6, 7, 8]; const result = delete arr[1]; return arr[1]; })()'), void 0); // Empty elements evaluates to 'undefined'
+      assert.deepStrictEqual(esEval('delete [][0]'), true);
     });
   });
 });

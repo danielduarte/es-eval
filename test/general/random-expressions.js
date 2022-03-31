@@ -54,18 +54,21 @@ describe('Random cases', function () {
     assert.deepStrictEqual(esEval('productsWithMainStock.map(  p => { p.isAvailable = !!p.isAvailable && (typeof p.children === "undefined" || p.children.filter(child => availableProductIds.includes(child.childId)).length > 0); return p }  )', { productsWithMainStock: [{isAvailable: true,children:[{childId: 5}]}], availableProductIds: [5] }), [{isAvailable: true,children:[{childId: 5}]}]);
     assert.deepStrictEqual(esEval('imageAssets.reduce((acc, elem) => { return [...acc, ...elem.productImage]; }, []).reduce((acc, img) => { img.url=baseUrlBody.value+"/"+img.id; acc[img.id]=img; return acc; }, {})', { imageAssets: [{productImage:[{id:'i1'}]}, {productImage:[{id:'i2'}]}], baseUrlBody: {value: 'http://chau.com'} }), { i1: { id: 'i1', url: 'http://chau.com/i1' }, i2: { id: 'i2', url: 'http://chau.com/i2' }});
     assert.deepStrictEqual(esEval('uncheckedPriceList.error ? uncheckedPriceList.error : {error:"Could not find the price list ("+JSON.stringify(priceListFilter)+")"}', { uncheckedPriceList: 11111, priceListFilter: { limit: 10 } }), { error: 'Could not find the price list ({"limit":10})' });
+    assert.deepStrictEqual(esEval('delete stockItem.productId && stockItem', { stockItem: { productId: 21, sku: 'AX2' } }), { sku: 'AX2' });
+    assert.deepStrictEqual(esEval('prices.map(p => { delete p.id; delete p.itemCode; delete p.priceList; return p; })', { prices: [{price:3,id:4,itemCode:90}, {price:-5},{price:32,itemCode:[]}] } ), [{price:3}, {price:-5},{price:32}]);
+    assert.deepStrictEqual(esEval('$root.prices.filter(p=>p.itemCode === id).map(p => { delete p.id; delete p.itemCode; delete p.priceList; return p; })', { id: 90, $root: {prices:[{sku: 'sk',price:3,id:4,itemCode:90}, {price:-5},{price:32,itemCode:[]}]} }), [{price: 3, sku: 'sk'}]);
 
-    // @todo(fix) delete
-    // assert.deepStrictEqual(esEval('delete stockItem.productId && stockItem', { stockItem: 11111 }), 11111);
-    // assert.deepStrictEqual(esEval('prices.map(p => { delete p.id; delete p.itemCode; delete p.priceList; return p; })', { prices: [{price:3,id:4,itemCode:90}, {price:-5},{price:32,itemCode:[]}] } ), [{price:3}, {price:-5},{price:32}]);
-    // assert.deepStrictEqual(esEval('$root.prices.filter(p=>p.itemCode === id).map(p => { delete p.id; delete p.itemCode; delete p.priceList; return p; })', { id: 90, $root: {prices:[{sku: 'sk',price:3,id:4,itemCode:90}, {price:-5},{price:32,itemCode:[]}]} }), [{price: 3, sku: 'sk'}]);
-
-    // @todo(feat) implement Object
-    // assert.deepStrictEqual(esEval('Object.entries(sanitizationMap).reduce((acc, [sanitizedField, rawField]) => { acc[sanitizedField] = entityData[rawField]; return acc; }, {})', { xxxxx: 11111 }), {});
-    // assert.deepStrictEqual(esEval('Object.keys(entityData).map(field => [ field, field.toLowerCase().replace(/[^a-z0-9]/g, "") ]).reduce((acc, item) => { acc[item[1]]=item[0]; return acc; }, {})', { xxxxx: 11111 }), {});
+    // @todo(feat) implement string.toLowerCase
+    // assert.deepStrictEqual(esEval('Object.keys(entityData).map(field => [ field, field.toLowerCase().replace(/[^a-z0-9]/g, "") ]).reduce((acc, item) => { acc[item[1]]=item[0]; return acc; }, {})', { entityData: { a: 1 } }), {});
 
     // @todo(feat) implement string.trim
     // assert.deepStrictEqual(esEval('sanitizedData.ruleenabled && sanitizedData.ruleenabled.trim().toLowerCase() === "yes" ? true : (sanitizedData.ruleenabled && sanitizedData.ruleenabled.trim().toLowerCase() === "no" ? false : true)', { sanitizedData: { ruleenabled: "s"} }), {});
+
+    // @todo(feat) implement string templates
+    // assert.deepStrictEqual(esEval('body.map(asset => ({ ...asset, url: `${baseUrlBody.value}/${asset.id}`}))', { body: [{},{}] }), {});
+
+    // @todo(feat) implement array destructuring
+    // assert.deepStrictEqual(esEval('Object.entries(sanitizationMap).reduce((acc, [sanitizedField, rawField]) => { acc[sanitizedField] = entityData[rawField]; return acc; }, {})', { sanitizationMap: { a: {}} }), {});
 
     // @todo(feat) parseFloat
     // assert.deepStrictEqual(esEval('parseFloat(sanitizedData.taxrate)', { xxxxx: 11111 }), {});
@@ -75,8 +78,5 @@ describe('Random cases', function () {
 
     // @todo(feat) implement 'new'
     // assert.deepStrictEqual(esEval('[...new Set((request_body.items || []).map(item => item.productId))]', { xxxxx: 11111 }), {});
-
-    // @todo(feat) implement string templates
-    // assert.deepStrictEqual(esEval('body.map(asset => ({ ...asset, url: `${baseUrlBody.value}/${asset.id}`}))', { body: [{},{}] }), {});
   });
 });

@@ -80,7 +80,7 @@ try {
 |---------|-------|
 | Hangup protection | The execution of any user inputs is protected against intentional or unintentional hangups. Since it is mathematically proven that the [halting problem](https://en.wikipedia.org/wiki/Halting_problem) is undecidable, hence it cannot be automatically computed, this protection is based on a configurable timeout. |
 | Primitive values | `number`, `string`, `boolean` and `undefined` values. |
-| Objects | `{ key: 'value' }`, `null`, built-in static methods: `entries`, `keys`, `values` |
+| Objects | `{ key: 'value' }`, `null`, built-in static methods: `Object.entries()`, `Object.keys()`, `Object.values()` |
 | Arrays | `[1, 2, 3]`, built-in properties and methods: `length`, `push`, `pop`, `shift`, `ushift`, `slice`, `splice`, `forEach`, `map`, `filter`, `reduce`, `includes` |
 | Arrow function expressions | `(x, y) => x + y` |
 | Standard function expressions | `function () { return 'value'; }` |
