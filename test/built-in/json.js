@@ -7,8 +7,6 @@ describe('Built-in JSON object', function () {
 
   it('JSON object exists and is valid', function () {
     assert.deepStrictEqual(esEval('typeof JSON'), 'object');
-    assert.deepStrictEqual(esEval('typeof JSON.parse'), 'function');
-    assert.deepStrictEqual(esEval('typeof JSON.stringify'), 'function');
   });
 
   // @todo(feat) improve JSON support
