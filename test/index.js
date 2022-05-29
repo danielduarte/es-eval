@@ -29,5 +29,6 @@ require('./statements/while');
 require('./general/random-expressions');
 require('./general/halting');
 require('./built-in/json');
+require('./built-in/math');
 require('./expressions/spread');
 require('./vars/closures');

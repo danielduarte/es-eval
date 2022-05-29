@@ -16,11 +16,6 @@ describe('String built-in properties and methods', function () {
   //   assert.deepStrictEqual(esEval('(() => { const str = "abc"; str.length = 10; return str.length; })()'), 3);
   // });
 
-  it('valueOf', function () {
-    assert.deepStrictEqual(esEval('typeof "abc".valueOf'), 'function');
-    assert.deepStrictEqual(esEval('"abc".valueOf()'), 'abc');
-  });
-
   it('toLowerCase', function () {
     assert.deepStrictEqual(esEval('typeof "abc".toLowerCase'), 'function');
     assert.deepStrictEqual(esEval('"aBcD".toLowerCase()'), 'abcd');

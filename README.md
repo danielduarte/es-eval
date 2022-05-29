@@ -84,6 +84,7 @@ try {
 | Arrays | `[1, 2, 3]`, built-in properties and methods: `length`, `push`, `pop`, `shift`, `ushift`, `slice`, `splice`, `forEach`, `map`, `filter`, `reduce`, `includes` |
 | Arrow function expressions | `(x, y) => x + y` |
 | Standard function expressions | `function () { return 'value'; }` |
+| Closures | |
 | Nested expressions | `(a < (b + 1) && a - (a < ([1, 2].map(x => 1 + x)).length))`  |
 | Callbacks | `cb => { cb(); return 1; }` |
 | Mathematical operations | `+`, `-`, `/`, `*`, `%`, `**` |
@@ -96,16 +97,14 @@ try {
 | Conditional | [`if` / `else`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else) statement. |
 | Loops | [`while`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while) statement. |
 | [`JSON`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON) | `JSON.parse()` and `JSON.stringify()`. |
+| [`Math`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math) | `Math.random(), Math.floor(), Math.ceil(), Math.round(), Math.min(), Math.max()`. |
 | [Spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) (`...`) | Spread syntax for arrays, objects, and parameters. |
 
 # Coming soon...
 
 | Status | Feature | Notes |
 |--------|---------|-------|
-| :sweat: In Progress | [`Math.random()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random) | JavaScript random number generator. |
-| :hourglass_flowing_sand: To-Do | [`Math.min()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/min) | Minimum calculation. |
-| :hourglass_flowing_sand: To-Do | [`Math.max()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max) | Maximum calculation. |
-| :hourglass_flowing_sand: To-Do | [`Math.floor()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor) | Returns the largest integer less than or equal to a given number. |
+| :sweat: In Progress | [`for ... of` loop](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of) | Creates a loop iterating over iterable objects, including: built-in String and Array |
 | :hourglass_flowing_sand: To-Do | [`parseFloat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat) | Global function to convert a value into a floating point number. |
 | :hourglass_flowing_sand: To-Do | [`parseInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt) | Global function to convert a value into an integer number. |
 
@@ -116,7 +115,6 @@ try {
 | Feature | Notes |
 |---------|-------|
 | Browser support | |
-| `for of` loop | |
 | `for in` loop | |
 | `for (;;)` loop | |
 | `do ... while` loop | |
