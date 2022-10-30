@@ -30,5 +30,6 @@ require('./general/random-expressions');
 require('./general/halting');
 require('./built-in/json');
 require('./built-in/math');
+require('./built-in/functions');
 require('./expressions/spread');
 require('./vars/closures');

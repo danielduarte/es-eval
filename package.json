@@ -1,6 +1,6 @@
 {
   "name": "es-eval",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Run JavaScript safely",
   "main": "index.js",
   "scripts": {
@@ -27,9 +27,9 @@
   },
   "homepage": "https://github.com/danielduarte/es-eval#readme",
   "devDependencies": {
-    "mocha": "^9.2.2"
+    "mocha": "^10.1.0"
   },
   "dependencies": {
-    "acorn": "^8.7.0"
+    "acorn": "^8.8.1"
   }
 }
