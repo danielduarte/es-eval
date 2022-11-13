@@ -20,7 +20,6 @@ const evalAst = (ast, vars, options, runState) => {
     }, {}), context);
   }
 
-
   return evalProgram(ast, context, options, runState);
 };
 

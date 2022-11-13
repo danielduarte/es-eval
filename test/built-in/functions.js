@@ -122,4 +122,97 @@ describe('Built-in functions', function () {
 
     // @todo(test): add tests using radix
   });
+
+  it('isNaN', function () {
+    assert.deepStrictEqual(esEval('typeof isNaN'), 'function');
+    // // assert.deepStrictEqual(esEval('typeof this.isNaN'), 'function'); // @todo: support this case
+    assert.deepStrictEqual(esEval('typeof globalThis.isNaN'), 'function');
+
+    // Number
+    assert.deepStrictEqual(esEval('isNaN(0)'), false);
+    assert.deepStrictEqual(esEval('isNaN(-0)'), false);
+    assert.deepStrictEqual(esEval('isNaN(-12.89)'), false);
+    assert.deepStrictEqual(esEval('isNaN(12.89)'), false);
+    assert.deepStrictEqual(esEval('isNaN(NaN)'), true);
+    assert.deepStrictEqual(esEval('isNaN(Infinity)'), false);
+    assert.deepStrictEqual(esEval('isNaN(-Infinity)'), false);
+
+    // Undefined
+    assert.deepStrictEqual(esEval('isNaN()'), true);
+    assert.deepStrictEqual(esEval('isNaN(undefined)'), true);
+
+    // Boolean
+    assert.deepStrictEqual(esEval('isNaN(false)'), false);
+    assert.deepStrictEqual(esEval('isNaN(true)'), false);
+
+    // Object
+    assert.deepStrictEqual(esEval('isNaN(null)'), false);
+    assert.deepStrictEqual(esEval('isNaN({})'), true);
+    assert.deepStrictEqual(esEval('isNaN({ a: 1 })'), true);
+    assert.deepStrictEqual(esEval('isNaN({ "a": 1 })'), true);
+    assert.deepStrictEqual(esEval('isNaN({ ["a"]: 1 })'), true);
+    // assert.deepStrictEqual(esEval('isNaN({ toString: () => 123 })'), false); // @todo support this case
+    // assert.deepStrictEqual(esEval('isNaN({ toString: () => "123"})'), false); // @todo support this case
+    // assert.deepStrictEqual(esEval('isNaN({ toString: () => "abc"})'), true); // @todo support this case
+
+    // Array
+    assert.deepStrictEqual(esEval('isNaN([])'), false);
+    assert.deepStrictEqual(esEval('isNaN([""])'), false);
+    assert.deepStrictEqual(esEval('isNaN(["", 56.78])'), true);
+    assert.deepStrictEqual(esEval('isNaN([false])'), true);
+    assert.deepStrictEqual(esEval('isNaN([false, 56.78])'), true);
+    assert.deepStrictEqual(esEval('isNaN([true])'), true);
+    assert.deepStrictEqual(esEval('isNaN([true, 56.78])'), true);
+    assert.deepStrictEqual(esEval('isNaN([NaN])'), true);
+    assert.deepStrictEqual(esEval('isNaN([NaN, 56.78])'), true);
+    assert.deepStrictEqual(esEval('isNaN([Infinity])'), false);
+    assert.deepStrictEqual(esEval('isNaN([Infinity, 56.78])'), true);
+    assert.deepStrictEqual(esEval('isNaN([-Infinity])'), false);
+    assert.deepStrictEqual(esEval('isNaN([-Infinity, 56.78])'), true);
+    assert.deepStrictEqual(esEval('isNaN([undefined])'), false);
+    assert.deepStrictEqual(esEval('isNaN([undefined, 56.78])'), true);
+    assert.deepStrictEqual(esEval('isNaN([12.89])'), false);
+    assert.deepStrictEqual(esEval('isNaN([12.89, 56.78])'), true);
+    assert.deepStrictEqual(esEval('isNaN(["12.89"])'), false);
+    assert.deepStrictEqual(esEval('isNaN(["12.89", 56.78])'), true);
+    assert.deepStrictEqual(esEval('isNaN([" 12.89xyz"])'), true);
+    assert.deepStrictEqual(esEval('isNaN([" 12.89xyz", 56.78])'), true);
+    assert.deepStrictEqual(esEval('isNaN([null])'), false);
+    assert.deepStrictEqual(esEval('isNaN([null, 12.89, 56.78])'), true);
+    assert.deepStrictEqual(esEval('isNaN([{}])'), true);
+    assert.deepStrictEqual(esEval('isNaN([{}, 12.89, 56.78])'), true);
+    assert.deepStrictEqual(esEval('isNaN([{ a: 1 }])'), true);
+    assert.deepStrictEqual(esEval('isNaN([{ a: 1 }, 12.89, 56.78])'), true);
+    // assert.deepStrictEqual(esEval('isNaN([{ toString: () => 123}])'), false); // @todo support this case
+    // assert.deepStrictEqual(esEval('isNaN([{ toString: () => "123"}])'), false); // @todo support this case
+    // assert.deepStrictEqual(esEval('isNaN([{ toString: () => "abc"}])'), true); // @todo support this case
+    assert.deepStrictEqual(esEval('isNaN([[[[]]]])'), false);
+    assert.deepStrictEqual(esEval('isNaN([[[[33]]]])'), false);
+    assert.deepStrictEqual(esEval('isNaN([[[[33, 1]]]])'), true);
+    assert.deepStrictEqual(esEval('isNaN([[[[33]], 1]])'), true);
+    assert.deepStrictEqual(esEval('isNaN([[[[33]]], 1])'), true);
+    assert.deepStrictEqual(esEval('isNaN([[[[NaN]]]])'), true);
+    assert.deepStrictEqual(esEval('isNaN([[[["123"]]]])'), false);
+    assert.deepStrictEqual(esEval('isNaN([[[["str"]]]])'), true);
+
+    // String
+    assert.deepStrictEqual(esEval('isNaN("undefined")'), true);
+    assert.deepStrictEqual(esEval('isNaN("NaN")'), true);
+    assert.deepStrictEqual(esEval('isNaN("Infinity")'), false);
+    assert.deepStrictEqual(esEval('isNaN("-Infinity")'), false);
+    assert.deepStrictEqual(esEval('isNaN("false")'), true);
+    assert.deepStrictEqual(esEval('isNaN("true")'), true);
+    assert.deepStrictEqual(esEval('isNaN("null")'), true);
+    assert.deepStrictEqual(esEval('isNaN("")'), false);
+    assert.deepStrictEqual(esEval(`isNaN("''")`), true);
+    assert.deepStrictEqual(esEval(`isNaN('""')`), true);
+    assert.deepStrictEqual(esEval('isNaN("any string")'), true);
+    assert.deepStrictEqual(esEval('isNaN("0")'), false);
+    assert.deepStrictEqual(esEval('isNaN("-0")'), false);
+    assert.deepStrictEqual(esEval('isNaN("-12.89")'), false);
+    assert.deepStrictEqual(esEval('isNaN("12.89")'), false);
+    assert.deepStrictEqual(esEval('isNaN("12.89x56")'), true);
+    assert.deepStrictEqual(esEval('isNaN("   12.89   ")'), false);
+    assert.deepStrictEqual(esEval('isNaN(() => "12.89")'), true);
+  });
 });
