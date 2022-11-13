@@ -20,7 +20,9 @@ const evalAst = (ast, vars, options, runState) => {
     }, {}), context);
   }
 
-  return evalProgram(ast, context, options, runState);
+  const globalThis = context.asObject();
+
+  return evalProgram(ast, context, globalThis, options, runState);
 };
 
 const esEval = (code, vars, options) => {
