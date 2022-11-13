@@ -38,6 +38,28 @@ describe('General', function () {
     assert.deepStrictEqual(thisKeys, expectedThisKeys);
   });
 
+  it('global this - optional this in global fields', function () {
+    assert.deepStrictEqual(esEval('this.undefined'),  esEval('undefined'));
+    assert.deepStrictEqual(esEval('this.Infinity'),   esEval('Infinity'));
+    assert.deepStrictEqual(esEval('this.NaN'),        esEval('NaN'));
+    // assert.deepStrictEqual(esEval('this.globalThis'), esEval('globalThis')); // @todo support globalThis
+    // assert.deepStrictEqual(esEval('this.isNaN'),      esEval('isNaN'));      // @todo support global functions referenced by this
+    // assert.deepStrictEqual(esEval('this.parseFloat'), esEval('parseFloat')); // @todo support global functions referenced by this
+    // assert.deepStrictEqual(esEval('this.parseInt'),   esEval('parseInt'));   // @todo support global functions referenced by this
+    assert.deepStrictEqual(esEval('this.JSON'),       esEval('JSON'));
+    assert.deepStrictEqual(esEval('this.Math'),       esEval('Math'));
+    assert.deepStrictEqual(esEval('this.Object'),     esEval('Object'));
+  });
+
+
+  // @todo support globalThis
+  // it('globalThis', function () {
+  //   assert.deepStrictEqual(esEval('this'),  esEval('globalThis'));
+  //   assert.deepStrictEqual(esEval('this'),  esEval('globalThis.globalThis'));
+  //   assert.deepStrictEqual(esEval('this'),  esEval('this.globalThis'));
+  //   assert.deepStrictEqual(esEval('this'),  esEval('this.globalThis.globalThis'));
+  // });
+
   it('this on function expressions', function () {
     const exp = `
       (() => {
