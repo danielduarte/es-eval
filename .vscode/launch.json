@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/index",
+      "internalConsoleOptions": "openOnSessionStart"
+    },
+    {
+      "name": "Test",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/mocha/bin/mocha",
+      "internalConsoleOptions": "openOnSessionStart"
+    }
+  ]
+}
