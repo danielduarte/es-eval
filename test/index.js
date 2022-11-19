@@ -26,6 +26,7 @@ require('./general/this');
 require('./statements/blocks');
 require('./statements/if');
 require('./statements/while');
+require('./statements/for-of');
 require('./general/random-expressions');
 require('./general/halting');
 require('./built-in/json');
