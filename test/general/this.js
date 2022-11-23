@@ -21,6 +21,7 @@ describe('General', function () {
         'globalThis',
 
         // Global functions
+        'isFinite',
         'isNaN',
         'parseFloat',
         'parseInt',
@@ -43,6 +44,7 @@ describe('General', function () {
     assert.deepStrictEqual(esEval('this.Infinity'),   esEval('Infinity'));
     assert.deepStrictEqual(esEval('this.NaN'),        esEval('NaN'));
     // assert.deepStrictEqual(esEval('this.globalThis'), esEval('globalThis')); // @todo support globalThis
+    // assert.deepStrictEqual(esEval('this.isFinite'),   esEval('isFinite'));      // @todo support global functions referenced by this
     // assert.deepStrictEqual(esEval('this.isNaN'),      esEval('isNaN'));      // @todo support global functions referenced by this
     // assert.deepStrictEqual(esEval('this.parseFloat'), esEval('parseFloat')); // @todo support global functions referenced by this
     // assert.deepStrictEqual(esEval('this.parseInt'),   esEval('parseInt'));   // @todo support global functions referenced by this
