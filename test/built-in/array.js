@@ -3,7 +3,71 @@ const assert = require('assert');
 const { assertError } = require('../utils');
 const esEval = require('../..');
 
-describe('Array built-in properties and methods', function () {
+
+describe('Array static built-in properties and methods', function () {
+
+  // it('Array constructor exists and is valid', function () {
+  //   assert.deepStrictEqual(esEval('typeof Array'), 'function'); // @todo(fix) return correct type for built-in constructors
+  // });
+
+  it('isArray', function () {
+    assert.deepStrictEqual(esEval('typeof Array.isArray'), 'function');
+
+    // Number
+    assert.deepStrictEqual(esEval('Array.isArray(0)'), false);
+    assert.deepStrictEqual(esEval('Array.isArray(-0)'), false);
+    assert.deepStrictEqual(esEval('Array.isArray(-12.89)'), false);
+    assert.deepStrictEqual(esEval('Array.isArray(12.89)'), false);
+    assert.deepStrictEqual(esEval('Array.isArray(NaN)'), false);
+    assert.deepStrictEqual(esEval('Array.isArray(Infinity)'), false);
+    assert.deepStrictEqual(esEval('Array.isArray(-Infinity)'), false);
+
+    // Undefined
+    assert.deepStrictEqual(esEval('Array.isArray()'), false);
+    assert.deepStrictEqual(esEval('Array.isArray(undefined)'), false);
+
+    // Boolean
+    assert.deepStrictEqual(esEval('Array.isArray(false)'), false);
+    assert.deepStrictEqual(esEval('Array.isArray(true)'), false);
+
+    // Object
+    assert.deepStrictEqual(esEval('Array.isArray(null)'), false);
+    assert.deepStrictEqual(esEval('Array.isArray({})'), false);
+    assert.deepStrictEqual(esEval('Array.isArray({ length: 6 })'), false);
+    assert.deepStrictEqual(esEval('Array.isArray({ a: 1 })'), false);
+    assert.deepStrictEqual(esEval('Array.isArray({ "a": 1 })'), false);
+    assert.deepStrictEqual(esEval('Array.isArray({ ["a"]: 1 })'), false);
+
+    // Array
+    assert.deepStrictEqual(esEval('Array.isArray([])'), true);
+    assert.deepStrictEqual(esEval('Array.isArray([""])'), true);
+    assert.deepStrictEqual(esEval('Array.isArray(["", 56.78])'), true);
+    assert.deepStrictEqual(esEval('Array.isArray([false])'), true);
+    assert.deepStrictEqual(esEval('Array.isArray([NaN])'), true);
+    assert.deepStrictEqual(esEval('Array.isArray([Infinity])'), true);
+    assert.deepStrictEqual(esEval('Array.isArray([undefined])'), true);
+    assert.deepStrictEqual(esEval('Array.isArray([{}])'), true);
+    assert.deepStrictEqual(esEval('Array.isArray([[[[]]]])'), true);
+
+    // String
+    assert.deepStrictEqual(esEval('Array.isArray("[]")'), false);
+    assert.deepStrictEqual(esEval('Array.isArray("undefined")'), false);
+    assert.deepStrictEqual(esEval('Array.isArray("NaN")'), false);
+    assert.deepStrictEqual(esEval('Array.isArray("Infinity")'), false);
+    assert.deepStrictEqual(esEval('Array.isArray("-Infinity")'), false);
+    assert.deepStrictEqual(esEval('Array.isArray("false")'), false);
+    assert.deepStrictEqual(esEval('Array.isArray("true")'), false);
+    assert.deepStrictEqual(esEval('Array.isArray("null")'), false);
+    assert.deepStrictEqual(esEval('Array.isArray("")'), false);
+    assert.deepStrictEqual(esEval(`Array.isArray("''")`), false);
+    assert.deepStrictEqual(esEval(`Array.isArray('""')`), false);
+    assert.deepStrictEqual(esEval('Array.isArray("any string")'), false);
+    assert.deepStrictEqual(esEval('Array.isArray("0")'), false);
+    assert.deepStrictEqual(esEval('Array.isArray(() => "12.89")'), false);
+  });
+});
+
+describe('Array prototype built-in properties and methods', function () {
 
   it('indexed access', function () {
     assert.deepStrictEqual(esEval('["a", "b"][1]'), 'b');

@@ -78,7 +78,7 @@ try {
 
 | Feature | Notes |
 |---------|-------|
-| Hangup protection | The execution of any user inputs is protected against intentional or unintentional hangups. Since it is mathematically proven that the [halting problem](https://en.wikipedia.org/wiki/Halting_problem) is undecidable, hence it cannot be automatically computed, this protection is based on a configurable timeout. |
+| Hangup protection | The execution of any user inputs is protected against intentional or unintentional hangups. Since it is mathematically proven that the [halting problem] is undecidable, hence it cannot be automatically computed, this protection is based on a configurable timeout. |
 | Primitive values | `number`, `string`, `boolean` and `undefined` values. |
 | Objects | `{ key: 'value' }`, `null`, built-in static methods: `Object.entries()`, `Object.keys()`, `Object.values()` |
 | Arrays | `[1, 2, 3]`, built-in properties and methods: `length`, `push`, `pop`, `shift`, `ushift`, `slice`, `splice`, `forEach`, `map`, `filter`, `reduce`, `includes` |
@@ -94,23 +94,23 @@ try {
 | Ternary operator | `... ? ... : ...` |
 | Nullish operator | `??` |
 | Variables | `const` and `let` declarations. Assignments. |
-| Conditional | [`if` / `else`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else) statement. |
-| Loops | [`while`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while) statement. |
-| [`JSON`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON) | `JSON.parse()` and `JSON.stringify()`. |
-| [`Math`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math) | [`Math.random()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random), [`Math.min()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/min), [`Math.max()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max), [`Math.floor()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor), [`Math.ceil()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/ceil) and [`Math.round()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round). |
-| [Spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) (`...`) | Spread syntax for arrays, objects, and parameters. |
-| Global functions | [`parseFloat`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat) and [`parseInt`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt). |
+| Conditional | [`if...else`] statement. |
+| Loops | [`while`] and [`for...of`] statements. |
+| [`JSON`] | `JSON.parse()` and `JSON.stringify()`. |
+| [`Math`] | [`Math.random()`], [`Math.min()`], [`Math.max()`], [`Math.floor()`], [`Math.ceil()`] and [`Math.round()`]. |
+| [Spread operator] (`...`) | Spread syntax for arrays, objects, and parameters. |
+| Global functions | [`parseFloat`], [`parseInt`], [`isNaN`] and [`isFinite`]. |
 
 # Coming soon...
 
 | Status | Feature | Notes |
 |--------|---------|-------|
-| :sweat: In Progress | [`isNaN`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN) | Determines whether a value is NaN. |
-| :sweat: In Progress | [`isFinite`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isFinite) | Determines whether a value is a finite number. |
-| :sweat: In Progress | [`for ... of` loop](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of) | Creates a loop iterating over iterable objects, including: built-in String and Array |
-| :hourglass_flowing_sand: To-Do | [`Array.from()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from) | Creates a copy of an iterable or array-like object. |
-| :hourglass_flowing_sand: To-Do | [`Array.isArray()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray) | Determines whether the passed value is an Array. |
-| :hourglass_flowing_sand: To-Do | [`Array.of()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of) | Creates an array from the arguments. |
+| :sweat: In Progress | global [`this`] | Reference to the global object. |
+| :sweat: In Progress | [`Array.isArray()`] | Determines whether the passed value is an Array. |
+| :sweat: In Progress | [`+=`] operator | Addition assignment. |
+| :hourglass_flowing_sand: To-Do | [`Array.from()`] | Creates a copy of an iterable or array-like object. |
+| :hourglass_flowing_sand: To-Do | [`Array.of()`] | Creates an array from the arguments. |
+| :hourglass_flowing_sand: To-Do | Block evaluation | Run a block code and return the block context variables with the values at the end of the execution. |
 
 # Future features
 
@@ -139,7 +139,7 @@ try {
 
 :white_check_mark: Evaluate user input expressions safely
 
-:white_check_mark: Easily provide a way to enter and evaluate custom conditions 
+:white_check_mark: Easily provide a way to enter and evaluate custom conditions
 
 :white_check_mark: Embed JS expressions in template engines
 
@@ -153,3 +153,27 @@ try {
 :no_entry: Create entire applications
 
 :no_entry: Replace V8, or other JS engines
+
+
+[halting problem]:   https://en.wikipedia.org/wiki/Halting_problem
+[`this`]:            https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
+[`+=`]:              https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition_assignment
+[`Array.isArray()`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray
+[`Array.from()`]:    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
+[`Array.of()`]:      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/of
+[`if...else`]:       https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else
+[`while`]:           https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/while
+[`for...of`]:        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of
+[`JSON`]:            https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON
+[`Math`]:            https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math
+[`Math.random()`]:   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+[`Math.min()`]:      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/min
+[`Math.max()`]:      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/max
+[`Math.floor()`]:    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/floor
+[`Math.ceil()`]:     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/ceil
+[`Math.round()`]:    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/round
+[Spread operator]:   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+[`parseFloat`]:      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseFloat
+[`parseInt`]:        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt
+[`isNaN`]:           https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isNaN
+[`isFinite`]:        https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/isFinite

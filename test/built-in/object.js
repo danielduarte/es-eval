@@ -2,7 +2,7 @@ const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
 
-describe('Object built-in properties and methods', function () {
+describe('Object static built-in properties and methods', function () {
 
   // it('Object constructor exists and is valid', function () {
   //   assert.deepStrictEqual(esEval('typeof Object'), 'function'); // @todo(fix) return correct type for built-in constructors

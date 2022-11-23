@@ -34,6 +34,7 @@ describe('General', function () {
 
         // Object global constructor
         'Object',
+        'Array',
     ];
     const thisKeys = Object.keys(esEval('this'));
     assert.deepStrictEqual(thisKeys, expectedThisKeys);
