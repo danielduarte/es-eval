@@ -10,6 +10,12 @@ const assertError = (func, message) => {
   assert.deepStrictEqual(errorMsg, message);
 };
 
+const getMajorNodeVersion = () => {
+  const version = process.version;
+  return Number(version.substring(1, version.indexOf('.')));
+};
+
 module.exports = {
   assertError,
+  getMajorNodeVersion,
 };

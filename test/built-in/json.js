@@ -1,7 +1,7 @@
 const { describe, it } = require('mocha');
 const assert = require('assert');
 const esEval = require('../..');
-const { assertError } = require('../utils');
+const { assertError, getMajorNodeVersion } = require('../utils');
 
 describe('Built-in JSON object', function () {
 
@@ -17,50 +17,65 @@ describe('Built-in JSON object', function () {
   // });
 
   it('JSON.parse', function () {
+    const nodeVersion = getMajorNodeVersion();
+
     assert.deepStrictEqual(esEval('typeof JSON.parse'), 'function');
 
     // Number
     assert.deepStrictEqual(esEval('JSON.parse(0)'), 0);
     assert.deepStrictEqual(esEval('JSON.parse(1234)'), 1234);
-    assertError(() => esEval('JSON.parse(Infinity)'), 'Unexpected token I in JSON at position 0');
-    assertError(() => esEval('JSON.parse(NaN)'), 'Unexpected token N in JSON at position 0');
+    if (nodeVersion < 19) {
+      assertError(() => esEval('JSON.parse(Infinity)'), 'Unexpected token I in JSON at position 0');
+      assertError(() => esEval('JSON.parse(NaN)'), 'Unexpected token N in JSON at position 0');
+    } else {
+      assertError(() => esEval('JSON.parse(Infinity)'), '"Infinity" is not valid JSON');
+      assertError(() => esEval('JSON.parse(NaN)'), '"NaN" is not valid JSON');
+    }
 
     // Undefined
-    assertError(() => esEval('JSON.parse(undefined)'), 'Unexpected token u in JSON at position 0');
+    const jsonParseUndefError = nodeVersion < 19 ? 'Unexpected token u in JSON at position 0' : '"undefined" is not valid JSON';
+    assertError(() => esEval('JSON.parse(undefined)'), jsonParseUndefError);
 
     // Boolean
     assert.deepStrictEqual(esEval('JSON.parse(false)'), false);
     assert.deepStrictEqual(esEval('JSON.parse(true)'), true);
 
     // Object
-    assertError(() => esEval('JSON.parse({})'), 'Unexpected token o in JSON at position 1');
-    assertError(() => esEval('JSON.parse({ a: 1 })'), 'Unexpected token o in JSON at position 1');
-    assertError(() => esEval('JSON.parse({ "a": 1 })'), 'Unexpected token o in JSON at position 1');
+    const jsonParseObjError = nodeVersion < 19 ? 'Unexpected token o in JSON at position 1' : '"[object Object]" is not valid JSON';
+    assertError(() => esEval('JSON.parse({})'), jsonParseObjError);
+    assertError(() => esEval('JSON.parse({ a: 1 })'), jsonParseObjError);
+    assertError(() => esEval('JSON.parse({ "a": 1 })'), jsonParseObjError);
     assert.deepStrictEqual(esEval('JSON.parse(null)'), null);
     // assert.deepStrictEqual(esEval('JSON.parse({ a: 1, toString() { return 4321; } })'), 4321); // @todo(feat) support toString when parsing JSON
 
     // Array
     assertError(() => esEval('JSON.parse([])'), 'Unexpected end of JSON input');
-    assertError(() => esEval('JSON.parse([1, 2, 3])'), 'Unexpected token , in JSON at position 1');
+    if (nodeVersion < 19) {
+      assertError(() => esEval('JSON.parse([1, 2, 3])'), 'Unexpected token , in JSON at position 1');
+    } else if (nodeVersion === 20) {
+      assertError(() => esEval('JSON.parse([1, 2, 3])'), 'Unexpected non-whitespace character after JSON at position 1');
+    } else {
+      assertError(() => esEval('JSON.parse([1, 2, 3])'), 'Unexpected non-whitespace character after JSON at position 1 (line 1 column 2)');
+    }
 
     // String
     assertError(() => esEval('JSON.parse("")'), 'Unexpected end of JSON input');
-    assertError(() => esEval('JSON.parse("hello")'), 'Unexpected token h in JSON at position 0');
+    assertError(() => esEval('JSON.parse("hello")'), nodeVersion < 19 ? 'Unexpected token h in JSON at position 0' : `Unexpected token 'h', "hello" is not valid JSON`);
     assert.deepStrictEqual(esEval('JSON.parse("0")'), 0);
     assert.deepStrictEqual(esEval('JSON.parse("1234")'), 1234);
-    assertError(() => esEval('JSON.parse("Infinity")'), 'Unexpected token I in JSON at position 0');
-    assertError(() => esEval('JSON.parse("NaN")'), 'Unexpected token N in JSON at position 0');
-    assertError(() => esEval('JSON.parse("undefined")'), 'Unexpected token u in JSON at position 0');
+    assertError(() => esEval('JSON.parse("Infinity")'),  nodeVersion < 19 ? 'Unexpected token I in JSON at position 0' : '"Infinity" is not valid JSON' );
+    assertError(() => esEval('JSON.parse("NaN")'), nodeVersion < 19 ? 'Unexpected token N in JSON at position 0' : '"NaN" is not valid JSON');
+    assertError(() => esEval('JSON.parse("undefined")'), nodeVersion < 19 ? 'Unexpected token u in JSON at position 0' : '"undefined" is not valid JSON');
     assert.deepStrictEqual(esEval('JSON.parse("false")'), false);
     assert.deepStrictEqual(esEval('JSON.parse("true")'), true);
-    assertError(() => esEval(`JSON.parse("''")`), `Unexpected token ' in JSON at position 0`);
+    assertError(() => esEval(`JSON.parse("''")`), nodeVersion < 19 ? `Unexpected token ' in JSON at position 0` : `Unexpected token ''', "''" is not valid JSON`);
     assert.deepStrictEqual(esEval(`JSON.parse('""')`), '');
     assert.deepStrictEqual(esEval(`JSON.parse('"hello"')`), 'hello');
-    assertError(() => esEval(`JSON.parse("'hello'")`), `Unexpected token ' in JSON at position 0`);
+    assertError(() => esEval(`JSON.parse("'hello'")`), nodeVersion < 19 ? `Unexpected token ' in JSON at position 0` : `Unexpected token ''', "'hello'" is not valid JSON`);
     assert.deepStrictEqual(esEval(`JSON.parse('{}')`), {});
     assert.deepStrictEqual(esEval('JSON.parse("null")'), null);
     assert.deepStrictEqual(esEval(`JSON.parse('{ "a": 1 }')`), { a: 1 });
-    assertError(() => esEval(`JSON.parse('{ "a": undefined }')`), 'Unexpected token u in JSON at position 7');
+    assertError(() => esEval(`JSON.parse('{ "a": undefined }')`), nodeVersion < 19 ? 'Unexpected token u in JSON at position 7' : `Unexpected token 'u', "{ "a": undefined }" is not valid JSON`);
     assert.deepStrictEqual(esEval(`JSON.parse('{ "a": false }')`), { a: false });
     assert.deepStrictEqual(esEval(`JSON.parse('{ "a": true }')`), { a: true });
     assert.deepStrictEqual(esEval(`JSON.parse('{ "a": "test" }')`), { a: 'test' });
