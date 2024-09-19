@@ -27,9 +27,9 @@
   },
   "homepage": "https://github.com/danielduarte/es-eval#readme",
   "devDependencies": {
-    "mocha": "^10.1.0"
+    "mocha": "^10.7.3"
   },
   "dependencies": {
-    "acorn": "^8.8.1"
+    "acorn": "^8.12.1"
   }
 }
