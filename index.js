@@ -28,12 +28,12 @@ const evalAst = (ast, vars, options, runState) => {
 const esEval = (code, vars, options) => {
   options = Object.assign({ timeout: 100 }, options || {}); // @todo(refactor) unify default values
   // @todo(refactor) check if this freeze can be removed
-  Object.freeze(options); // Even if this object is passed in the context, it cannot be altered. If it would be possible, a custom code would be able to increase the timeout for example.
+  Object.freeze(options); // Even if this object is passed in the context, it cannot be altered. If that would be possible, a custom code could be able to increase the timeout, for example.
 
   const ast = acorn.parse(`(${code})`, { ecmaVersion: 2022 });
   const runState = { startTime: Date.now() };
   return evalAst(ast, vars || {}, options, runState);
 };
 
-// Do not export other functions to call them directly. That could break the security in the execution
+// Do not export other library functions to call them directly, that could break the security in the execution.
 module.exports = esEval;
