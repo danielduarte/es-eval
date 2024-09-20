@@ -409,4 +409,19 @@ describe('Array prototype built-in properties and methods', function () {
       return [array, result];
     })()`), [[{a:1,x:0,y:0},{b:2,x:1,y:1},3], void 0]);
   });
+
+  it('find', function () {
+    // @todo(test) add tests for the thisArg parameter when supported (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find)
+    assert.deepStrictEqual(esEval('typeof [].find'), 'function');
+    assertError(() => esEval('[1, 2, 3, 4].find()'), 'undefined is not a function');
+
+    assert.deepStrictEqual(esEval('[].find(x => x)'), void 0);
+    assert.deepStrictEqual(esEval('[].find(() => false)'), void 0);
+    assert.deepStrictEqual(esEval('[].find(() => true)'), void 0);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1].find(x => x)'), 4);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1].find(() => false)'), void 0);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1].find(() => true)'), 4);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1].find(x => x <= 2)'), 2);
+    assert.deepStrictEqual(esEval('[1, 2, 3, 4].find(x => x <= 2)'), 1);
+  });
 });
