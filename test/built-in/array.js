@@ -439,4 +439,47 @@ describe('Array prototype built-in properties and methods', function () {
     assert.deepStrictEqual(esEval('[4, 3, 2, 1].findIndex(x => x <= 2)'), 2);
     assert.deepStrictEqual(esEval('[1, 2, 3, 4].findIndex(x => x <= 2)'), 0);
   });
+
+  it('indexOf', function () {
+    // @todo add tests with 'fromIndex' parameter < 0
+    // @todo add tests with 'fromIndex' parameter < -array.length
+    // @todo add tests with 'fromIndex' parameter >= array.length
+
+    assert.deepStrictEqual(esEval('typeof [].indexOf'), 'function');
+
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1, 1, 2, 3, 4].indexOf(2)'), 2);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1, 1, 2, 3, 4].indexOf(2, undefined)'), 2);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1, 1, 2, 3, 4].indexOf(2, 2)'), 2);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1, 1, 2, 3, 4].indexOf(2, 3)'), 5);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1, 1, 2, 3, 4].indexOf(2, 5)'), 5);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1, 1, 2, 3, 4].indexOf(2, 6)'), -1);
+
+    assert.deepStrictEqual(esEval('[{ a: 1 }].indexOf({ a: 1 })'), -1);
+    assert.deepStrictEqual(esEval('(() => { const o = { a: 1 }; return [o].indexOf(o); })()'), 0);
+    assert.deepStrictEqual(esEval('[function () {}].indexOf(function () {})'), -1);
+    assert.deepStrictEqual(esEval('(() => { const fn = function () {}; return [fn].indexOf(fn); })()'), 0);
+  });
+
+  it('lastIndexOf', function () {
+    // @todo add tests with 'fromIndex' parameter < 0
+    // @todo add tests with 'fromIndex' parameter < -array.length
+    // @todo add tests with 'fromIndex' parameter >= array.length
+
+    assert.deepStrictEqual(esEval('typeof [].lastIndexOf'), 'function');
+
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1, 1, 2, 3, 4].lastIndexOf(2)'), 5);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1, 1, 2, 3, 4].lastIndexOf(2, undefined)'), -1);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1, 1, 2, 3, 4].lastIndexOf(2, 1)'), -1);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1, 1, 2, 3, 4].lastIndexOf(2, 2)'), 2);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1, 1, 2, 3, 4].lastIndexOf(2, 3)'), 2);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1, 1, 2, 3, 4].lastIndexOf(2, 4)'), 2);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1, 1, 2, 3, 4].lastIndexOf(2, 5)'), 5);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1, 1, 2, 3, 4].lastIndexOf(2, 6)'), 5);
+
+    assert.deepStrictEqual(esEval('[{ a: 1 }].lastIndexOf({ a: 1 })'), -1);
+    assert.deepStrictEqual(esEval('(() => { const o = { a: 1 }; return [o].lastIndexOf(o); })()'), 0);
+    assert.deepStrictEqual(esEval('[function () {}].lastIndexOf(function () {})'), -1);
+    assert.deepStrictEqual(esEval('(() => { const fn = function () {}; return [fn].lastIndexOf(fn); })()'), 0);
+  });
+
 });
