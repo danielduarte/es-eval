@@ -424,4 +424,19 @@ describe('Array prototype built-in properties and methods', function () {
     assert.deepStrictEqual(esEval('[4, 3, 2, 1].find(x => x <= 2)'), 2);
     assert.deepStrictEqual(esEval('[1, 2, 3, 4].find(x => x <= 2)'), 1);
   });
+
+  it('findIndex', function () {
+    // @todo(test) add tests for the thisArg parameter when supported (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex)
+    assert.deepStrictEqual(esEval('typeof [].findIndex'), 'function');
+    assertError(() => esEval('[1, 2, 3, 4].findIndex()'), 'undefined is not a function');
+
+    assert.deepStrictEqual(esEval('[].findIndex(x => x)'), -1);
+    assert.deepStrictEqual(esEval('[].findIndex(() => false)'), -1);
+    assert.deepStrictEqual(esEval('[].findIndex(() => true)'), -1);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1].findIndex(x => x)'), 0);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1].findIndex(() => false)'), -1);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1].findIndex(() => true)'), 0);
+    assert.deepStrictEqual(esEval('[4, 3, 2, 1].findIndex(x => x <= 2)'), 2);
+    assert.deepStrictEqual(esEval('[1, 2, 3, 4].findIndex(x => x <= 2)'), 0);
+  });
 });
