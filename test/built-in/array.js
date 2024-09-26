@@ -482,4 +482,68 @@ describe('Array prototype built-in properties and methods', function () {
     assert.deepStrictEqual(esEval('(() => { const fn = function () {}; return [fn].lastIndexOf(fn); })()'), 0);
   });
 
+  it('concat', function () {
+    assert.deepStrictEqual(esEval('typeof [].concat'), 'function');
+
+    // Concat an array to another array
+    assert.deepStrictEqual(esEval('[].concat([])'), []);
+    assert.deepStrictEqual(esEval('[1, 2].concat([])'), [1, 2]);
+    assert.deepStrictEqual(esEval('[].concat([3, 4])'), [3, 4]);
+    assert.deepStrictEqual(esEval('[1, 2].concat([3, 4])'), [1, 2, 3, 4]);
+
+    // Concat elements to an array
+    assert.deepStrictEqual(esEval('[].concat()'), []);
+    assert.deepStrictEqual(esEval('[1, 2].concat()'), [1, 2]);
+    assert.deepStrictEqual(esEval('[].concat(3, 4)'), [3, 4]);
+    assert.deepStrictEqual(esEval('[1, 2].concat(3, 4)'), [1, 2, 3, 4]);
+
+    // Concat multiple arrays to another array
+    assert.deepStrictEqual(esEval('[].concat([], [], [])'), []);
+    assert.deepStrictEqual(esEval('[1, 2].concat([], [3, 4], [])'), [1, 2, 3, 4]);
+    assert.deepStrictEqual(esEval('[1, 2].concat([3, 4], [], [5, 6])'), [1, 2, 3, 4, 5, 6]);
+
+    // Concat arrays and elements to another array
+    assert.deepStrictEqual(esEval('[1, 2].concat(3, [4, 5], [], 6, 7, [8, 9], 10)'), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+    // Concat multi-level arrays
+    assert.deepStrictEqual(esEval('[[1, 1], [2, 2]].concat([[3, 3], [4, 4]], [[5, 5]])'), [[1, 1], [2, 2], [3, 3], [4, 4], [5, 5]]);
+    assert.deepStrictEqual(esEval('[[1, 1], [2, 2]].concat([3, 3], [4, 4], [[5, 5]])'), [[1, 1], [2, 2], 3, 3, 4, 4, [5, 5]]);
+  });
+
+
+  it('join', function () {
+    assert.deepStrictEqual(esEval('typeof [].join'), 'function');
+
+    // Join of empty array
+    assert.deepStrictEqual(esEval('[].join()'), '');
+    assert.deepStrictEqual(esEval('[].join("ABC")'), '');
+
+    // Join with default separator
+    assert.deepStrictEqual(esEval('[1, 2, 3, "x"].join()'), '1,2,3,x');
+    assert.deepStrictEqual(esEval('[1, 2, 3, "x"].join(undefined)'), '1,2,3,x');
+    assert.deepStrictEqual(esEval('[1, 2, 3, "x"].join(",")'), '1,2,3,x');
+
+    // Join with custom separator
+    assert.deepStrictEqual(esEval('[1, 2, 3, "x"].join("")'), '123x');
+    assert.deepStrictEqual(esEval('[1, 2, 3, "x"].join(", ")'), '1, 2, 3, x');
+    assert.deepStrictEqual(esEval('[1, 2, 3, "x"].join("-*-")'), '1-*-2-*-3-*-x');
+
+    // Join with non-string separator
+    assert.deepStrictEqual(esEval('[1, 2, 3, "x"].join(12)'), '112212312x');
+    assert.deepStrictEqual(esEval('[1, 2, 3, "x"].join(012)'), '110210310x');
+  });
+
+  it('sort', function () {
+    assert.deepStrictEqual(esEval('typeof [].sort'), 'function');
+
+    // Simple sort test
+    assert.deepStrictEqual(esEval('["March", "Jan", "Feb", "Dec"].sort()'), ['Dec', 'Feb', 'Jan', 'March']);
+
+    // Test sort is done in place (modifying the original array)
+    assert.deepStrictEqual(esEval('(() => { const months = ["March", "Jan", "Feb", "Dec"]; months.sort(); return months; })()'), ['Dec', 'Feb', 'Jan', 'March']);
+
+    // Sort with user function
+    assert.deepStrictEqual(esEval('[2, 1, 6, 3, 5, 4].sort((a, b) => a - b)'), [1, 2, 3, 4, 5, 6]);
+    assert.deepStrictEqual(esEval('[6, 5, 4, 3, 2, 1].sort((a, b) => b - a)'), [6, 5, 4, 3, 2, 1]);
+  });
 });

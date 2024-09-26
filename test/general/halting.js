@@ -5,6 +5,7 @@ const esEval = require('../..');
 const defaultOptions = { timeout: 100 }; // @todo(refactor) unify default values
 const maxTimeoutDelta = 50; // 50 ms
 
+// @todo test if timeout is accomplished with a percentaje of error, for example +-10%
 describe('Halting', function () {
 
   it('stop hangup evaluation - empty statement', function () {
